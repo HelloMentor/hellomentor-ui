@@ -1,0 +1,10 @@
+.container-landing {
+  margin-top: 2rem;
+  padding-bottom: 150px;
+}
+
+@media (min-width: 768px) {
+  .container-landing {
+    margin-top: 5rem;
+  }
+}

@@ -16,16 +16,16 @@ class Signup extends Component {
         role: '',
         f_name: '',
         l_name: '',
+        headline: '',
         email: '',
         city: '',
         country: '',
         dob: null,
         gender: '',
-        linkedin_url: '',
+        linkedin_u_name: '',
         skills: [],
         wanted_skills: [],
-        summary: '',
-        misc_desires: '',
+        summary: ''
       },
       genderOptions: [
         { key: 'Male', text: 'Male', value: 'Male' },
@@ -84,7 +84,7 @@ class Signup extends Component {
   }
 
   signup() {
-    fetch('/users', {
+    fetch(process.env.REACT_APP_API_URL + '/users', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -125,6 +125,10 @@ class Signup extends Component {
               <Input name='l_name' placeholder='Last Name' onChange={this.handleChange} />
             </Form.Field>
           </Form.Group>
+          <Form.Field required width={12}>
+            <label>Headline</label>
+            <Input name='headline' placeholder='e.g. Founder at XYZ Corp' onChange={this.handleChange} />
+          </Form.Field>
           <Form.Group>
             <Form.Field width={6}>
               <label>City</label>
@@ -135,7 +139,7 @@ class Signup extends Component {
               <Input name='country' placeholder='Country' onChange={this.handleChange} />
             </Form.Field>
           </Form.Group>
-          <Form.Field width={6}>
+          {/*<Form.Field width={6}>
             <label>Date of Birth</label>
             <DatePicker
               selected={this.state.user.dob}
@@ -160,39 +164,31 @@ class Signup extends Component {
             />
           </Form.Field>
           <Form.Field width={6}>
-            <label>LinkedIn Profile URL</label>
-            <Input name='linkedin_url' placeholder='e.g. https://linkedin.com/u/janedoe' onChange={this.handleChange} />
-          </Form.Field>
-          <Form.Field width={10}>
-            <label>Your skills (tab-separated)</label>
-            <TagsInput value={this.state.user.skills} onChange={this.handleSkillChange} />
-          </Form.Field>
+            <label>LinkedIn Username</label>
+            <Input name='linkedin_u_name' placeholder='e.g. https://linkedin.com/u/janedoe' onChange={this.handleChange} />
+          </Form.Field>*/}
           {
             (this.state.user.role === 'Mentee') ?
-              <Form.Field width={10}>
-                <label>Things you would like mentorship in (tab-separated)</label>
+              <Form.Field width={12}>
+                <label>Skills you would like mentorship in (tab-separated)</label>
                 <TagsInput value={this.state.user.wanted_skills} onChange={this.handleWantedSkillChange} />
               </Form.Field>
             :
-              <Form.Field width={10}>
-                <label>Things you would like to provide mentorship for (tab-separated)</label>
-                <TagsInput value={this.state.user.wanted_skills} onChange={this.handleWantedSkillChange} />
+              <Form.Field width={12}>
+                <label>Your skills (tab-separated)</label>
+                <TagsInput value={this.state.user.skills} onChange={this.handleSkillChange} />
               </Form.Field>
           }
-          <Form.Field width={6}>
-            <label>A summary about yourself</label>
-            <TextArea name='summary' placeholder='A few sentences increases your chances of a great match' onChange={this.handleChange} />
-          </Form.Field>
           {
             (this.state.user.role === 'Mentee') ?
-              <Form.Field width={6}>
-                <label>Anything else you would like to mention to help us find you a mentor</label>
-                <TextArea name='misc_desires' placeholder='Anything else you would like to mention to help us find you a mentor' onChange={this.handleChange} />
+              <Form.Field width={12}>
+                <label>About you</label>
+                <TextArea name='summary' placeholder='Share a little about yourself and what you are looking for on HelloMentor' onChange={this.handleChange} />
               </Form.Field>
             :
-              <Form.Field width={6}>
-                <label>Anything else you would like to mention to help us find you a mentee</label>
-                <TextArea name='misc_desires' placeholder='Anything else you would like to mention to help us find you a mentee' onChange={this.handleChange} />
+              <Form.Field width={12}>
+                <label>About you</label>
+                <TextArea name='summary' placeholder='Share a little about what makes you a great mentor' onChange={this.handleChange} />
               </Form.Field>
           }
           <Button primary onClick={this.signup}>SUBMIT</Button>

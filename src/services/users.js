@@ -6,8 +6,16 @@ export function getAllUsers() {
 }
 
 export function getLoggedInUser() {
-  return fetch(process.env.REACT_APP_API_URL + '/user', {
+  return fetch(process.env.REACT_APP_API_URL + '/users', {
     method: 'GET',
     headers: { 'Content-Type': 'application/json' }
+  });
+}
+
+export function login(user) {
+  return fetch(process.env.REACT_APP_API_URL + '/users/login', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ user })
   });
 }

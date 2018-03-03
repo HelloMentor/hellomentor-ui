@@ -44,7 +44,8 @@ class Discover extends Component {
 function mapStateToProps(state) {
   return {
     usersById: state.users.usersById,
-    usersArray: state.users.usersArray
+    usersArray: state.users.usersArray,
+    liu: state.users.liu
   }
 }
 

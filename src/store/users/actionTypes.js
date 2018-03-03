@@ -1,2 +1,3 @@
 export const USERS_FETCHED = 'users.USERS_FETCHED';
-export const LIU_SET = 'users.LIU_SET';
+export const SET_LIU = 'users.SET_LIU';
+export const LOGIN = 'users.LOGIN';

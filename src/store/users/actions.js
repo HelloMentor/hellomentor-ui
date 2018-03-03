@@ -18,6 +18,16 @@ export function fetchUser(id) {
 
 export function setLoggedInUser(user) {
   return dispatch => {
-    dispatch({ type: types.LIU_SET, user });
+    dispatch({ type: types.SET_LIU, user });
+  }
+}
+
+export function login(user) {
+  return dispatch => {
+    services.login(user)
+      .then(res => res.json())
+      .then(user => {
+        dispatch({ type: types.LOGIN, user });
+      });
   }
 }

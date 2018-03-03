@@ -2,7 +2,8 @@ import * as types from './actionTypes';
 
 const initialState = {
   usersById: {},
-  usersArray: []
+  usersArray: [],
+  liu: {}
 }
 
 export default function(state = initialState, action) {
@@ -13,10 +14,15 @@ export default function(state = initialState, action) {
         usersById: action.usersById,
         usersArray: Object.keys(action.usersById).length ? Object.values(action.usersById) : []
       }
-    case types.LIU_SET:
+    case types.SET_LIU:
       return {
         ...state,
-        liu: action.user
+        liu: action.user.user
+      }
+    case types.LOGIN:
+      return {
+        ...state,
+        liu: action.user.user
       }
     default:
       return state;

@@ -7,6 +7,7 @@ import Header from './Header/Header';
 import Footer from './Footer/Footer';
 import Landing from './Landing/Landing';
 import Signup from './Signup/Signup';
+import Login from './Login/Login';
 import Thanks from './Thanks/Thanks';
 import Discover from './Discover/Discover';
 import { Container } from 'semantic-ui-react';
@@ -22,6 +23,7 @@ class App extends Component {
             <Switch>
               <Route exact path='/' component={Landing} />
               <Route path='/signup' component={Signup} />
+              <Route path='/login' component={Login} />
               <Route path='/thanks' component={Thanks} />
               <Route path='/discover' component={Discover} />
               <Route render={function () {

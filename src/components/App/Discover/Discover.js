@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import autoBind from 'react-autobind';
 import { connect } from 'react-redux';
-import { Container } from 'semantic-ui-react'
+import { Button, Card, Container } from 'semantic-ui-react'
 import { fetchAllUsers } from '../../../store/users/actions';
 import './Discover.css';
 
@@ -18,9 +18,24 @@ class Discover extends Component {
   render() {
     return (
       <Container textAlign="left" style={{ marginTop: '2em', paddingBottom: '150px' }}>
-        <div>
-          {Object.keys(this.props.usersById).length ? JSON.stringify(this.props.usersById) : 'waiting'}
-        </div>
+        <Card.Group>
+          {
+            this.props.usersArray.map(user => {
+              return (
+                <Card key={user.id}>
+                    <Card.Content>
+                      <Card.Header>{user.f_name} {user.l_name}</Card.Header>
+                      <Card.Meta>{user.headline} - {user.role}</Card.Meta>
+                      <Card.Description>{user.summary}</Card.Description>
+                    </Card.Content>
+                    <Card.Content extra>
+                      <Button basic color='blue' as='a' href={'mailto:' + user.email}>Send Email</Button>
+                    </Card.Content>
+                </Card>
+              )
+            })
+          }
+        </Card.Group>
       </Container>
     );
   }
@@ -28,7 +43,8 @@ class Discover extends Component {
 
 function mapStateToProps(state) {
   return {
-    usersById: state.users.usersById
+    usersById: state.users.usersById,
+    usersArray: state.users.usersArray
   }
 }
 

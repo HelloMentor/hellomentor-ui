@@ -1,8 +1,13 @@
 export function getAllUsers() {
-  return [{
-    id: 1,
-    email: 'ben@hellomentor.io',
-    f_name: 'Ben',
-    l_name: 'Inada'
-  }];
+  return fetch(process.env.REACT_APP_API_URL + '/users-list', {
+    method: 'GET',
+    headers: { 'Content-Type': 'application/json' }
+  });
+}
+
+export function getLoggedInUser() {
+  return fetch(process.env.REACT_APP_API_URL + '/user', {
+    method: 'GET',
+    headers: { 'Content-Type': 'application/json' }
+  });
 }

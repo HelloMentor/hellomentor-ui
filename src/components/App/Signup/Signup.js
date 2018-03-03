@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
-import { Button, Container, Dropdown, Form, Input, TextArea } from 'semantic-ui-react'
+import { connect } from 'react-redux';
+import autoBind from 'react-autobind';
+import { Button, Container, Form, Input, TextArea } from 'semantic-ui-react'
 import TagsInput from 'react-tagsinput';
-import moment from 'moment';
 import 'react-tagsinput/react-tagsinput.css';
-import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
+import { setLoggedInUser } from '../../../store/users/actions';
 import './Signup.css';
 
 class Signup extends Component {
@@ -36,13 +37,7 @@ class Signup extends Component {
       ]
     };
 
-    this.signup = this.signup.bind(this);
-    this.handleChange = this.handleChange.bind(this);
-    this.handleSkillChange = this.handleSkillChange.bind(this);
-    this.handleWantedSkillChange = this.handleWantedSkillChange.bind(this);
-    this.handleDobChange = this.handleDobChange.bind(this);
-    this.handleGenderChange = this.handleGenderChange.bind(this);
-    this.handleGenderAddition = this.handleGenderAddition.bind(this);
+    autoBind(this);
   }
 
   componentDidMount() {
@@ -98,6 +93,8 @@ class Signup extends Component {
       } else {
         this.props.history.push('/thanks/?role=mentor');
       }
+
+      this.props.setLiu(user);
     });
   }
 
@@ -129,6 +126,18 @@ class Signup extends Component {
             <label>Headline</label>
             <Input name='headline' placeholder='e.g. Founder at XYZ Corp' onChange={this.handleChange} />
           </Form.Field>
+          {
+            (this.state.user.role === 'Mentee') ?
+              <Form.Field required width={12}>
+                <label>About you</label>
+                <TextArea name='summary' placeholder='Share a little about yourself and what you are looking for on HelloMentor' onChange={this.handleChange} />
+              </Form.Field>
+            :
+              <Form.Field required width={12}>
+                <label>About you</label>
+                <TextArea name='summary' placeholder='Share a little about what makes you a great mentor' onChange={this.handleChange} />
+              </Form.Field>
+          }
           <Form.Group>
             <Form.Field width={6}>
               <label>City</label>
@@ -179,18 +188,6 @@ class Signup extends Component {
                 <TagsInput value={this.state.user.skills} onChange={this.handleSkillChange} />
               </Form.Field>
           }
-          {
-            (this.state.user.role === 'Mentee') ?
-              <Form.Field width={12}>
-                <label>About you</label>
-                <TextArea name='summary' placeholder='Share a little about yourself and what you are looking for on HelloMentor' onChange={this.handleChange} />
-              </Form.Field>
-            :
-              <Form.Field width={12}>
-                <label>About you</label>
-                <TextArea name='summary' placeholder='Share a little about what makes you a great mentor' onChange={this.handleChange} />
-              </Form.Field>
-          }
           <Button primary onClick={this.signup}>SUBMIT</Button>
         </Form>
       </Container>
@@ -198,4 +195,18 @@ class Signup extends Component {
   }
 }
 
-export default Signup;
+function mapStateToProps(state) {
+  return {
+    loggedInUser: state.users.loggedInUser
+  }
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    setLiu(user) {
+      dispatch(setLoggedInUser(user))
+    }
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Signup)

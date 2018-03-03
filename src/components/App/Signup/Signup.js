@@ -88,12 +88,7 @@ class Signup extends Component {
     })
     .then(res => res.json())
     .then(user => {
-      if (this.state.user.role === 'Mentee') {
-        this.props.history.push('/thanks/?role=mentee');
-      } else {
-        this.props.history.push('/thanks/?role=mentor');
-      }
-
+      this.props.history.push('/discover');
       this.props.setLiu(user);
     });
   }

@@ -36,11 +36,11 @@ class Login extends Component {
     return (
       <Container textAlign="left" style={{ marginTop: '2em', paddingBottom: '150px' }}>
         <Form onSubmit={this.submitLogin}>
-          <Form.Field>
+          <Form.Field width={6}>
             <label>Email</label>
             <Input name='email' type='email' placeholder='Email' value={this.state.user.email} onChange={this.handleChange} />
           </Form.Field>
-          <Form.Field>
+          <Form.Field width={6}>
             <label>Password</label>
             <Input name='password' type='password' placeholder='Password' value={this.state.user.password} onChange={this.handleChange} />
           </Form.Field>

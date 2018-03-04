@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { Button, Container, Card, Grid, Header, List } from 'semantic-ui-react'
 import './Landing.css';
@@ -11,6 +12,9 @@ class Landing extends Component {
   }
 
   componentDidMount() {
+    if (this.props.liu && this.props.liu.f_name) {
+      this.props.history.push('/discover');
+    }
   }
 
   render() {
@@ -71,4 +75,14 @@ class Landing extends Component {
   }
 }
 
-export default Landing;
+function mapStateToProps(state) {
+  return {
+    liu: state.users.liu
+  }
+}
+
+function mapDispatchToProps(dispatch) {
+  return {}
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Landing)

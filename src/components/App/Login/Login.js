@@ -17,6 +17,12 @@ class Login extends Component {
 
     autoBind(this);
   }
+  
+  componentDidMount() {
+    if (this.props.liu && this.props.liu.f_name) {
+      this.props.history.push('/discover');
+    }
+  }
 
   handleChange(event) {
     const target = event.target;
@@ -52,7 +58,9 @@ class Login extends Component {
 }
 
 function mapStateToProps(state) {
-  return {}
+  return {
+    liu: state.users.liu
+  }
 }
 
 function mapDispatchToProps(dispatch) {

@@ -12,6 +12,9 @@ class Discover extends Component {
   }
 
   componentDidMount() {
+    if (!this.props.liu) {
+      this.props.history.push('/');
+    }
     this.props.loadUsers();
   }
 

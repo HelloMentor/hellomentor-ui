@@ -12,6 +12,14 @@ import Thanks from './Thanks/Thanks';
 import Discover from './Discover/Discover';
 import { Container } from 'semantic-ui-react';
 import store from '../../store';
+import * as types from '../../store/users/actionTypes';
+
+// restore last session
+let user = localStorage.getItem('liu');
+if (user !== null) {
+  user = JSON.parse(user);
+  store.dispatch({ type: types.SET_LIU, user });
+}
 
 class App extends Component {
   render() {

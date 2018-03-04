@@ -27,6 +27,7 @@ export function login(user) {
     services.login(user)
       .then(res => res.json())
       .then(user => {
+        localStorage.setItem('liu', JSON.stringify(user));
         dispatch({ type: types.LOGIN, user });
       });
   }

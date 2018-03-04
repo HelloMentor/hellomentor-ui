@@ -13,9 +13,6 @@ export function fetchAllUsers() {
   }
 }
 
-export function fetchUser(id) {
-}
-
 export function setLoggedInUser(user) {
   return dispatch => {
     dispatch({ type: types.SET_LIU, user });
@@ -24,11 +21,19 @@ export function setLoggedInUser(user) {
 
 export function login(user) {
   return dispatch => {
-    services.login(user)
+    // send back promise so we can take user to next page after login
+    return services.login(user)
       .then(res => res.json())
       .then(user => {
         localStorage.setItem('liu', JSON.stringify(user));
         dispatch({ type: types.LOGIN, user });
       });
+  }
+}
+
+export function logout(user) {
+  return dispatch => {
+    localStorage.removeItem('liu');
+    dispatch({ type: types.LOGOUT });
   }
 }

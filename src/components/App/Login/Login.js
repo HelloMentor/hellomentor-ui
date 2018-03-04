@@ -17,7 +17,7 @@ class Login extends Component {
 
     autoBind(this);
   }
-  
+
   componentDidMount() {
     if (this.props.liu && this.props.liu.f_name) {
       this.props.history.push('/discover');
@@ -34,8 +34,7 @@ class Login extends Component {
 
   submitLogin(event) {
     event.preventDefault();
-    this.props.loginUser(this.state.user);
-    this.props.history.push('/discover');
+    this.props.loginUser(this.state.user, this.props.history);
   }
 
   render() {
@@ -65,8 +64,10 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    loginUser(user) {
-      dispatch(login(user))
+    loginUser(user, history) {
+      dispatch(login(user)).then(() => {
+        history.push('/discover');
+      });
     }
   }
 }

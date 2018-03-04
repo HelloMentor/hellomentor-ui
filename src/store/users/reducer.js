@@ -24,6 +24,11 @@ export default function(state = initialState, action) {
         ...state,
         liu: action.user.user
       }
+    case types.LOGOUT:
+      return {
+        ...state,
+        liu: {}
+      }
     default:
       return state;
   }

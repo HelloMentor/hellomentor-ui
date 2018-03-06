@@ -5,7 +5,7 @@ class Header extends Component {
   render() {
     return (
       <Menu fixed='bottom'>
-        <Container>
+        <Container fluid>
           <Menu.Item position='left' style={{textAlign: 'left'}}>
             <List>
               <List.Item>HelloMentor Alpha 2018</List.Item>

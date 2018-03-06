@@ -37,3 +37,15 @@ export function logout(user) {
     dispatch({ type: types.LOGOUT });
   }
 }
+
+export function updateUser(user) {
+  return dispatch => {
+    // send back promise so we can take user to next page after update
+    return services.updateUser(user)
+      .then(res => res.json())
+      .then(user => {
+        localStorage.setItem('liu', JSON.stringify(user));
+        dispatch({ type: types.UPDATE_LIU, user });
+      });
+  }
+}

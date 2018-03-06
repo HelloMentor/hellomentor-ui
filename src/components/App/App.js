@@ -10,6 +10,7 @@ import Signup from './Signup/Signup';
 import Login from './Login/Login';
 import Thanks from './Thanks/Thanks';
 import Discover from './Discover/Discover';
+import Profile from './Profile/Profile';
 import { Container } from 'semantic-ui-react';
 import store from '../../store';
 import * as types from '../../store/users/actionTypes';
@@ -26,7 +27,7 @@ class App extends Component {
     return (
       <Provider store={store}>
         <BrowserRouter>
-          <Container className='App'>
+          <Container className='App' fluid>
             <Header />
             <Switch>
               <Route exact path='/' component={Landing} />
@@ -34,6 +35,7 @@ class App extends Component {
               <Route path='/login' component={Login} />
               <Route path='/thanks' component={Thanks} />
               <Route path='/discover' component={Discover} />
+              <Route path='/profile' component={Profile} />
               <Route render={function () {
                 return <p>Not Found</p>
               }} />

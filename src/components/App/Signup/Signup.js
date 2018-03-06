@@ -31,7 +31,6 @@ class Signup extends Component {
       genderOptions: [
         { key: 'Male', text: 'Male', value: 'Male' },
         { key: 'Female', text: 'Female', value: 'Female' },
-        { key: 'Transgender', text: 'Transgender', value: 'Transgender' },
         { key: 'Non-binary or Third Gender', text: 'Non-binary or Third Gender', value: 'Non-binary or Third Gender' },
         { key: 'Other', text: 'Other', value: 'Other' },
       ]

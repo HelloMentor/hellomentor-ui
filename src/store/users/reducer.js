@@ -19,6 +19,11 @@ export default function(state = initialState, action) {
         ...state,
         liu: action.user.user
       }
+    case types.UPDATE_LIU:
+      return {
+        ...state,
+        liu: action.user.user
+      }
     case types.LOGIN:
       return {
         ...state,

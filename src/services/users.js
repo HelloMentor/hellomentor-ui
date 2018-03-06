@@ -19,3 +19,14 @@ export function login(user) {
     body: JSON.stringify({ user })
   });
 }
+
+export function updateUser(user) {
+  return fetch(process.env.REACT_APP_API_URL + '/users', {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + user.token
+    },
+    body: JSON.stringify({ user })
+  });
+}

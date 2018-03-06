@@ -16,6 +16,10 @@ class Header extends Component {
     this.props.history.push('/login');
   }
 
+  goToProfile() {
+    this.props.history.push('/profile');
+  }
+
   submitLogout(event) {
     event.preventDefault();
     this.props.logoutUser();
@@ -36,7 +40,10 @@ class Header extends Component {
         </Menu.Item>
         {
           (this.props.liu && this.props.liu.f_name)
-          ? <Menu.Item name='logout' position='right' onClick={this.submitLogout} />
+          ? <Menu.Menu position='right'>
+              <Menu.Item name='profile' onClick={this.goToProfile} />
+              <Menu.Item name='logout' onClick={this.submitLogout} />
+            </Menu.Menu>
           : <Menu.Item name='login' position='right' onClick={this.goToLogin} />
         }
       </Menu>

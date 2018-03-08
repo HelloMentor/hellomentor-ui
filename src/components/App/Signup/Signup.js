@@ -33,7 +33,9 @@ class Signup extends Component {
         { key: 'Female', text: 'Female', value: 'Female' },
         { key: 'Non-binary or Third Gender', text: 'Non-binary or Third Gender', value: 'Non-binary or Third Gender' },
         { key: 'Other', text: 'Other', value: 'Other' },
-      ]
+      ],
+      profile_image_file: null,
+      imagePreviewUrl: ''
     };
 
     autoBind(this);
@@ -77,13 +79,33 @@ class Signup extends Component {
     });
   }
 
+  handleImageChange(e) {
+    e.preventDefault();
+
+    let reader = new FileReader();
+    let file = e.target.files[0];
+
+    reader.onloadend = () => {
+      this.setState({
+        user: {
+          ...this.state.user
+        },
+        profile_image_file: file,
+        imagePreviewUrl: reader.result
+      });
+    }
+
+    reader.readAsDataURL(file)
+  }
+
   signup() {
+    var formData  = new FormData();
+    formData.append('user', JSON.stringify(this.state.user));
+    formData.append('profile_image', this.state.profile_image_file);
+
     fetch(process.env.REACT_APP_API_URL + '/users', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        user: this.state.user
-      })
+      body: formData
     })
     .then(res => res.json())
     .then(user => {
@@ -115,6 +137,14 @@ class Signup extends Component {
               <label>Last Name</label>
               <Input name='l_name' placeholder='Last Name' onChange={this.handleChange} />
             </Form.Field>
+            <Form.Field width={4} className='field-image-upload'>
+              <label>Profile Image</label>
+              <Input className="fileInput"
+                type="file"
+                name="profile_image"
+                onChange={(e) => this.handleImageChange(e)} />
+              { this.state.imagePreviewUrl ? <img src={this.state.imagePreviewUrl} alt="profile" /> : '' }
+            </Form.Field>
           </Form.Group>
           <Form.Field required width={12}>
             <label>Headline</label>
@@ -142,34 +172,6 @@ class Signup extends Component {
               <Input name='country' placeholder='Country' onChange={this.handleChange} />
             </Form.Field>
           </Form.Group>
-          {/*<Form.Field width={6}>
-            <label>Date of Birth</label>
-            <DatePicker
-              selected={this.state.user.dob}
-              onChange={this.handleDobChange}
-              placeholderText='Click to select a date'
-              showMonthDropdown
-              showYearDropdown
-              dropdownMode='select' />
-          </Form.Field>
-          <Form.Field width={4}>
-            <label>Gender</label>
-            <Dropdown
-              options={this.state.genderOptions}
-              placeholder='Choose Gender'
-              search
-              selection
-              fluid
-              allowAdditions
-              value={this.state.user.gender}
-              onAddItem={this.handleGenderAddition}
-              onChange={this.handleGenderChange}
-            />
-          </Form.Field>
-          <Form.Field width={6}>
-            <label>LinkedIn Username</label>
-            <Input name='linkedin_u_name' placeholder='e.g. https://linkedin.com/u/janedoe' onChange={this.handleChange} />
-          </Form.Field>*/}
           {
             (this.state.user.role === 'Mentee') ?
               <Form.Field width={12}>

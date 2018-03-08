@@ -102,7 +102,7 @@ class Profile extends Component {
               <label>Last Name</label>
               <Input name='l_name' placeholder='Last Name' onChange={this.handleChange} value={this.state.user.l_name} />
             </Form.Field>
-            <Form.Field required width={4} className='field-image-upload'>
+            <Form.Field width={4} className='field-image-upload'>
               <label>Profile Image</label>
               <Input className="fileInput"
                 type="file"

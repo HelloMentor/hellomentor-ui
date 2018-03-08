@@ -109,8 +109,8 @@ class Signup extends Component {
     })
     .then(res => res.json())
     .then(user => {
-      this.props.history.push('/discover');
       this.props.setLiu(user);
+      this.props.history.push('/discover');
     });
   }
 
@@ -137,14 +137,6 @@ class Signup extends Component {
               <label>Last Name</label>
               <Input name='l_name' placeholder='Last Name' onChange={this.handleChange} />
             </Form.Field>
-            <Form.Field width={4} className='field-image-upload'>
-              <label>Profile Image</label>
-              <Input className="fileInput"
-                type="file"
-                name="profile_image"
-                onChange={(e) => this.handleImageChange(e)} />
-              { this.state.imagePreviewUrl ? <img src={this.state.imagePreviewUrl} alt="profile" /> : '' }
-            </Form.Field>
           </Form.Group>
           <Form.Field required width={12}>
             <label>Headline</label>
@@ -170,6 +162,14 @@ class Signup extends Component {
             <Form.Field width={6}>
               <label>Country</label>
               <Input name='country' placeholder='Country' onChange={this.handleChange} />
+            </Form.Field>
+            <Form.Field width={4} className='field-image-upload'>
+              <label>Profile Image</label>
+              <Input className="fileInput"
+                type="file"
+                name="profile_image"
+                onChange={(e) => this.handleImageChange(e)} />
+              { this.state.imagePreviewUrl ? <img src={this.state.imagePreviewUrl} alt="profile" /> : '' }
             </Form.Field>
           </Form.Group>
           {

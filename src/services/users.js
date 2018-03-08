@@ -20,13 +20,16 @@ export function login(user) {
   });
 }
 
-export function updateUser(user) {
+export function updateUser(user, profileImage) {
+  var formData  = new FormData();
+  formData.append('user', JSON.stringify(user));
+  formData.append('profile_image', profileImage);
+
   return fetch(process.env.REACT_APP_API_URL + '/users', {
     method: 'PUT',
     headers: {
-      'Content-Type': 'application/json',
       'Authorization': 'Bearer ' + user.token
     },
-    body: JSON.stringify({ user })
+    body: formData
   });
 }

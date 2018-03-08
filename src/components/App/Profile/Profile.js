@@ -6,6 +6,7 @@ import TagsInput from 'react-tagsinput';
 import { Button, Container, Dropdown, Form, Icon, Input, TextArea } from 'semantic-ui-react';
 import moment from 'moment';
 import { updateUser } from '../../../store/users/actions';
+import './Profile.css';
 
 class Profile extends Component {
   constructor(props) {
@@ -26,6 +27,7 @@ class Profile extends Component {
         { key: 'Non-binary or Third Gender', text: 'Non-binary or Third Gender', value: 'Non-binary or Third Gender' },
         { key: 'Other', text: 'Other', value: 'Other' },
       ],
+      imagePreviewUrl: this.props.liu.profile_image,
       updateSuccess: false
     });
   }
@@ -60,9 +62,28 @@ class Profile extends Component {
     });
   }
 
+  handleImageChange(e) {
+    e.preventDefault();
+
+    let reader = new FileReader();
+    let file = e.target.files[0];
+
+    reader.onloadend = () => {
+      this.setState({
+        user: {
+          ...this.state.user
+        },
+        profile_image_file: file,
+        imagePreviewUrl: reader.result
+      });
+    }
+
+    reader.readAsDataURL(file)
+  }
+
   updateProfile() {
     const { updateSuccess } = this.state.updateSuccess;
-    this.props.updateProfile(this.state.user, updateSuccess).then(() => {
+    this.props.updateProfile(this.state.user, this.state.profile_image_file, updateSuccess).then(() => {
       this.setState({ updateSuccess: true });
     });
   }
@@ -80,6 +101,14 @@ class Profile extends Component {
             <Form.Field required width={6}>
               <label>Last Name</label>
               <Input name='l_name' placeholder='Last Name' onChange={this.handleChange} value={this.state.user.l_name} />
+            </Form.Field>
+            <Form.Field required width={4} className='field-image-upload'>
+              <label>Profile Image</label>
+              <Input className="fileInput"
+                type="file"
+                name="profile_image"
+                onChange={(e) => this.handleImageChange(e)} />
+              { this.state.imagePreviewUrl ? <img src={this.state.imagePreviewUrl} alt="profile" /> : '' }
             </Form.Field>
           </Form.Group>
           <Form.Field required width={12}>
@@ -166,8 +195,8 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    updateProfile(user, updateSuccess) {
-      return dispatch(updateUser(user));
+    updateProfile(user, profileImageFile, updateSuccess) {
+      return dispatch(updateUser(user, profileImageFile));
     }
   }
 }

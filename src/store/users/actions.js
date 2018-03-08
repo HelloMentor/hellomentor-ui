@@ -38,10 +38,10 @@ export function logout(user) {
   }
 }
 
-export function updateUser(user) {
+export function updateUser(user, profileImage) {
   return dispatch => {
     // send back promise so we can take user to next page after update
-    return services.updateUser(user)
+    return services.updateUser(user, profileImage)
       .then(res => res.json())
       .then(user => {
         localStorage.setItem('liu', JSON.stringify(user));

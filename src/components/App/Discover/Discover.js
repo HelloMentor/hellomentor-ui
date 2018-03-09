@@ -41,7 +41,7 @@ class Discover extends Component {
       <Container textAlign="left" style={{ marginTop: '2em', paddingBottom: '150px' }}>
         <Header as='h1'>Matches for {this.props.liu.f_name}</Header>
         <Header.Subheader>Based on your profile, we think these folks would make a great match for you. Send a few of them an email, and keep it casual! We've found that informal yet genuine reach-outs tend to work the best.</Header.Subheader>
-        
+
         <Grid style={{ marginTop: '1em' }}>
           <Grid.Column width={3}>
             <Segment>
@@ -78,7 +78,7 @@ class Discover extends Component {
                             <Card.Description>{user.summary}</Card.Description>
                           </Card.Content>
                           <Card.Content extra>
-                            <Button basic color='blue' as='a' href={'mailto:' + user.email}>Send Email</Button>
+                            <Button basic fluid color='blue' as='a' href={'mailto:' + user.email}>Send Email</Button>
                           </Card.Content>
                       </Card>
                     : ''

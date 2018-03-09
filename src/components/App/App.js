@@ -4,7 +4,6 @@ import { Route, Switch } from 'react-router';
 import { BrowserRouter } from 'react-router-dom';
 import './App.css';
 import Header from './Header/Header';
-import Footer from './Footer/Footer';
 import Landing from './Landing/Landing';
 import Signup from './Signup/Signup';
 import Login from './Login/Login';
@@ -40,7 +39,6 @@ class App extends Component {
                 return <p>Not Found</p>
               }} />
             </Switch>
-            <Footer />
           </Container>
         </BrowserRouter>
       </Provider>

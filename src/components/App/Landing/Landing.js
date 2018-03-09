@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { Button, Container, Card, Grid, Header, List } from 'semantic-ui-react'
+import { Button, Container, Card, Grid, Header, Icon, List } from 'semantic-ui-react'
 import Particles from 'particlesjs';
+import Footer from '../Footer/Footer';
 import './Landing.css';
 
 class Landing extends Component {
@@ -76,7 +77,7 @@ class Landing extends Component {
                     </Card.Description>
                   </Card.Content>
                   <Card.Content extra>
-                    <Link to='/signup/?role=mentor'><Button primary>Apply</Button></Link>
+                    <Link to='/signup/?role=mentor'><Button primary>Sign Up</Button></Link>
                   </Card.Content>
                 </Card>
               </Grid.Column>
@@ -84,6 +85,7 @@ class Landing extends Component {
           </Card.Group>
           <canvas className='background'></canvas>
         </Container>
+        <Footer />
       </Container>
     );
   }

@@ -1,23 +1,20 @@
 import React, { Component } from 'react';
-import { Container, Icon, List, Menu } from 'semantic-ui-react'
+import { Button, Container, Icon, List, Menu } from 'semantic-ui-react'
 
-class Header extends Component {
+class Footer extends Component {
   render() {
     return (
-      <Menu fixed='bottom'>
+      <Menu fixed='bottom' style={{ backgroundColor: '#f7f7f7', minHeight: '65px' }}>
         <Container fluid>
           <Menu.Item position='left' style={{textAlign: 'left'}}>
             <List>
-              <List.Item>HelloMentor Alpha 2018</List.Item>
+              <List.Item><strong>HelloMentor α</strong> - © 2018</List.Item>
             </List>
           </Menu.Item>
           <Menu.Item position='right'>
-            <Icon name='facebook' />
-            <a href='https://facebook.com/tryhellomentor'>Facebook</a>&nbsp;
-            <Icon name='twitter' />
-            <a href='https://twitter.com/tryhellomentor'>Twitter</a>&nbsp;
-            <Icon name='linkedin' />
-            <a href='https://www.linkedin.com/company/tryhellomentor'>LinkedIn</a>
+              <Button circular color='facebook' icon='facebook' as='a' href='https://facebook.com/tryhellomentor' />&nbsp;&nbsp;
+              <Button circular color='twitter' icon='twitter' as='a' href='https://twitter.com/tryhellomentor' />&nbsp;&nbsp;
+              <Button circular color='linkedin' icon='linkedin' as='a' href='https://www.linkedin.com/company/tryhellomentor' />
           </Menu.Item>
         </Container>
       </Menu>
@@ -25,4 +22,4 @@ class Header extends Component {
   }
 }
 
-export default Header;
+export default Footer;

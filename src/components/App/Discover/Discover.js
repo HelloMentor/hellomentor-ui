@@ -1,13 +1,19 @@
 import React, { Component } from 'react';
 import autoBind from 'react-autobind';
 import { connect } from 'react-redux';
-import { Button, Card, Container, Grid, Header, Image } from 'semantic-ui-react'
+import { Button, Card, Checkbox, Container, Form, Grid, Header, Image, Segment } from 'semantic-ui-react'
 import { fetchAllUsers } from '../../../store/users/actions';
 import './Discover.css';
 
 class Discover extends Component {
   constructor(props) {
     super(props);
+
+    this.state = {
+      showMentors: true,
+      showMentees: true
+    };
+
     autoBind(this);
   }
 
@@ -18,32 +24,64 @@ class Discover extends Component {
     this.props.loadUsers();
   }
 
+  toggleShowMentors(event) {
+    this.setState({
+      showMentors: !this.state.showMentors
+    });
+  }
+
+  toggleShowMentees(event) {
+    this.setState({
+      showMentees: !this.state.showMentees
+    });
+  }
+
   render() {
     return (
       <Container textAlign="left" style={{ marginTop: '2em', paddingBottom: '150px' }}>
-        <Grid>
-          <Grid.Column width={16}>
-            <Header as='h1'>{this.props.liu.role === 'Mentee' ? 'Mentors' : 'Mentees'} for {this.props.liu.f_name}</Header>
-            {
-              (this.props.liu.role === 'Mentee')
-              ? <Header.Subheader>Based on your profile, we think these mentors could help you.</Header.Subheader>
-              : <Header.Subheader>Based on your profile, we think you would make a good match for these mentees.</Header.Subheader>
-            }
-            <Card.Group style={{ marginTop: '2em' }}>
+        <Header as='h1'>Matches for {this.props.liu.f_name}</Header>
+        <Header.Subheader>Based on your profile, we think these folks would make a great match for you. Send a few of them an email, and keep it casual! We've found that informal yet genuine reach-outs tend to work the best.</Header.Subheader>
+        
+        <Grid style={{ marginTop: '1em' }}>
+          <Grid.Column width={3}>
+            <Segment>
+              <Header as='h3'>Filters</Header>
+              <Form.Field>
+                <Checkbox
+                  toggle
+                  label='Mentors'
+                  checked={this.state.showMentors}
+                  onChange={this.toggleShowMentors}
+                />
+              </Form.Field>
+              <Form.Field style={{ paddingTop: '1em' }}>
+                <Checkbox
+                  toggle
+                  label='Mentees'
+                  checked={this.state.showMentees}
+                  onChange={this.toggleShowMentees}
+                />
+              </Form.Field>
+            </Segment>
+          </Grid.Column>
+          <Grid.Column width={13}>
+            <Card.Group>
               {
                 this.props.usersArray.map(user => {
                   return (
-                    <Card key={user.id}>
-                        <Card.Content>
-                          <Image floated='right' size='mini' src={user.profile_image} />
-                          <Card.Header>{user.f_name} {user.l_name}</Card.Header>
-                          <Card.Meta>{user.headline} - {user.role}</Card.Meta>
-                          <Card.Description>{user.summary}</Card.Description>
-                        </Card.Content>
-                        <Card.Content extra>
-                          <Button basic color='blue' as='a' href={'mailto:' + user.email}>Send Email</Button>
-                        </Card.Content>
-                    </Card>
+                    (user.role === 'Mentor' && this.state.showMentors) || (user.role === 'Mentee' && this.state.showMentees) ?
+                      <Card key={user.id}>
+                          <Card.Content>
+                            <Image floated='right' size='mini' src={user.profile_image} />
+                            <Card.Header>{user.f_name} {user.l_name}</Card.Header>
+                            <Card.Meta>{user.headline} - {user.role}</Card.Meta>
+                            <Card.Description>{user.summary}</Card.Description>
+                          </Card.Content>
+                          <Card.Content extra>
+                            <Button basic color='blue' as='a' href={'mailto:' + user.email}>Send Email</Button>
+                          </Card.Content>
+                      </Card>
+                    : ''
                   )
                 })
               }

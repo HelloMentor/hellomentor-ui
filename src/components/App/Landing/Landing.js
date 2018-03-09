@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { Button, Container, Card, Grid, Header, List } from 'semantic-ui-react'
+import Particles from 'particlesjs';
 import './Landing.css';
 
 class Landing extends Component {
@@ -9,6 +10,18 @@ class Landing extends Component {
 
   constructor(props) {
     super();
+
+    window.onload = function() {
+      Particles.init({
+        selector: '.background',
+        maxParticles: 400,
+        sizeVariations: 3,
+        speed: 0.5,
+        color: ['#2185d0'],
+        minDistance: 70,
+        connectParticles: true
+      });
+    }
   }
 
   componentDidMount() {
@@ -69,6 +82,7 @@ class Landing extends Component {
               </Grid.Column>
             </Grid>
           </Card.Group>
+          <canvas className='background'></canvas>
         </Container>
       </Container>
     );

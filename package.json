@@ -5,6 +5,7 @@
   "dependencies": {
     "lodash": "^4.17.5",
     "moment": "^2.20.1",
+    "particlesjs": "^2.2.1",
     "react": "^16.2.0",
     "react-autobind": "^1.0.6",
     "react-datepicker": "^1.1.0",

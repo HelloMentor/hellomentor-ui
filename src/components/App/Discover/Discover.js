@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import autoBind from 'react-autobind';
 import { connect } from 'react-redux';
-import { Button, Card, Container, Grid, Header } from 'semantic-ui-react'
+import { Button, Card, Container, Grid, Header, Image } from 'semantic-ui-react'
 import { fetchAllUsers } from '../../../store/users/actions';
 import './Discover.css';
 
@@ -35,6 +35,7 @@ class Discover extends Component {
                   return (
                     <Card key={user.id}>
                         <Card.Content>
+                          <Image floated='right' size='mini' src={user.profile_image} />
                           <Card.Header>{user.f_name} {user.l_name}</Card.Header>
                           <Card.Meta>{user.headline} - {user.role}</Card.Meta>
                           <Card.Description>{user.summary}</Card.Description>

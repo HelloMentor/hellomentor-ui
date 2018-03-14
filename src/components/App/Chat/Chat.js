@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import autoBind from 'react-autobind';
-import { Container } from 'semantic-ui-react';
+import { Container, Grid } from 'semantic-ui-react';
+import ChannelList from './ChannelList/ChannelList';
 import MessageList from './MessageList/MessageList';
 import MessageForm from './MessageForm/MessageForm';
 import TwilioChat from 'twilio-chat';
-// import { setLoggedInUser } from '../../../store/users/actions';
 import './Chat.css';
 
 class Chat extends Component {
@@ -13,6 +13,8 @@ class Chat extends Component {
     super(props);
     this.state = {
       messages: [],
+      publicChannelDescriptors: [],
+      privateChannelDescriptors: [],
       username: null,
       channel: null,
       chatClient: null
@@ -25,27 +27,40 @@ class Chat extends Component {
       messages: [...this.state.messages, { body: `Connecting...` }],
     });
 
-    fetch(process.env.REACT_APP_API_URL + '/chat/token')
+    fetch(process.env.REACT_APP_API_URL + '/chat/token', {
+      method: 'GET',
+      headers: {
+        'Authorization': 'Bearer ' + this.props.liu.token
+      },
+    })
       .then(res => res.json())
       .then((token) => {
-        let twilioChat = new TwilioChat(token.jwt);
-
         this.setState({
           username: token.identity,
-          chatClient: twilioChat
+          chatClient: new TwilioChat(token.jwt)
         });
-
-        return twilioChat;
       })
       .then(this.joinGeneralChannel)
-      .then(this.configureChannelEvents);
+      .then(this.fetchChannels);
   }
 
-  joinGeneralChannel = (chatClient) => {
+  fetchChannels() {
+    return new Promise((resolve, reject) => {
+      this.state.chatClient.getPublicChannelDescriptors().then((data) => {
+        this.setState({ publicChannelDescriptors: data.state.items });
+      });
+    })
+  }
+
+  joinGeneralChannel = () => {
     return new Promise((resolve, reject) => {
-      chatClient.getSubscribedChannels().then(() => {
-        chatClient.getChannelByUniqueName('general').then((channel) => {
+      this.state.chatClient.getSubscribedChannels().then(() => {
+        this.state.chatClient.getChannelByUniqueName('general').then((channel) => {
           this.setState({ channel })
+
+          channel.on('messageAdded', ({ author, body }) => {
+            this.addMessage({ author, body })
+          })
 
           channel.join().then(() => {
             window.addEventListener('beforeunload', () => channel.leave())
@@ -68,26 +83,20 @@ class Chat extends Component {
           }).catch(() => reject(Error('Could not join general channel.')))
 
           resolve(channel)
-        }).catch(() => this.createGeneralChannel(chatClient))
+        }).catch(() => this.createGeneralChannel(this.state.chatClient))
       }).catch(() => reject(Error('Could not get channel list.')))
     })
   }
 
-  createGeneralChannel = (chatClient) => {
+  createGeneralChannel = () => {
     return new Promise((resolve, reject) => {
-      this.addMessage({ body: 'Creating general channel...' })
-      chatClient
+      this.addMessage({ body: 'Creating general channel...' });
+      this.state.chatClient
         .createChannel({ uniqueName: 'general', friendlyName: 'General Chat' })
-        .then(() => this.joinGeneralChannel(chatClient))
+        .then(() => this.joinGeneralChannel(this.state.chatClient))
         .catch(() => reject(Error('Could not create general channel.')))
     })
   }
-
-  configureChannelEvents(channel) {
-    channel.on('messageAdded', ({ author, body }) => {
-      this.addMessage({ author, body })
-    })
-  }
 
   addMessage(message) {
     const messageData = { ...message, me: message.author === this.state.username }
@@ -104,16 +113,25 @@ class Chat extends Component {
 
   render() {
     return (
-      <Container fluid style={{ height: '100%' }}>
-        <MessageList messages={ this.state.messages } />
-        <MessageForm onMessageSend={ this.handleNewMessage } />
+      <Container fluid>
+        <Grid columns={16} divided style={{ height: 'calc(100vh - 4.5em)' }}>
+          <Grid.Column width={2}>
+            <ChannelList publicChannelDescriptors={ this.state.publicChannelDescriptors } privateChannelDescriptors={ this.state.privateChannelDescriptors } />
+          </Grid.Column>
+          <Grid.Column width={14}>
+            <MessageList messages={ this.state.messages } />
+            <MessageForm onMessageSend={ this.handleNewMessage } />
+          </Grid.Column>
+        </Grid>
       </Container>
     );
   }
 }
 
 function mapStateToProps(state) {
-  return {}
+  return {
+    liu: state.users.liu
+  }
 }
 
 function mapDispatchToProps(dispatch) {

@@ -2,13 +2,16 @@ import React, { Component } from 'react';
 import autoBind from 'react-autobind';
 import { connect } from 'react-redux';
 import { Button, Card, Checkbox, Container, Form, Grid, Header, Image, Segment } from 'semantic-ui-react'
+import TwilioChat from 'twilio-chat';
 import { fetchAllUsers } from '../../../store/users/actions';
+import { getChatToken } from '../../../store/chat/actions';
 import './Discover.css';
 
 class Discover extends Component {
   constructor(props) {
     super(props);
 
+    this.chatClient = null;
     this.state = {
       showMentors: true,
       showMentees: true
@@ -33,6 +36,16 @@ class Discover extends Component {
   toggleShowMentees(event) {
     this.setState({
       showMentees: !this.state.showMentees
+    });
+  }
+
+  sendMessage(toUser) {
+    this.props.getTwilioChatToken(this.props.liu).then(() => {
+      this.chatClient = new TwilioChat(this.props.chatToken.jwt);
+      this.chatClient.createChannel({
+        uniqueName: this.props.liu.id  + '_' + toUser.id + '_' + (new Date()).getTime(),
+        friendlyName: this.props.liu.f_name + ' and ' + toUser.f_name
+      });
     });
   }
 
@@ -78,7 +91,7 @@ class Discover extends Component {
                             <Card.Description>{user.summary}</Card.Description>
                           </Card.Content>
                           <Card.Content extra>
-                            <Button basic fluid color='blue' as='a' href={'mailto:' + user.email}>Send Email</Button>
+                            <Button basic fluid color='blue' as='a' onClick={() => this.sendMessage(user)}>Message</Button>
                           </Card.Content>
                       </Card>
                     : ''
@@ -97,7 +110,8 @@ function mapStateToProps(state) {
   return {
     usersById: state.users.usersById,
     usersArray: state.users.usersArray,
-    liu: state.users.liu
+    liu: state.users.liu,
+    chatToken: state.chat.token
   }
 }
 
@@ -105,6 +119,9 @@ function mapDispatchToProps(dispatch) {
   return {
     loadUsers() {
       dispatch(fetchAllUsers())
+    },
+    getTwilioChatToken(user) {
+      return dispatch(getChatToken(user))
     }
   }
 }

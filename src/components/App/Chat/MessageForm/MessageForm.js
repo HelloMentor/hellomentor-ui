@@ -20,7 +20,7 @@ class MessageForm extends Component {
 
   render() {
     return (
-      <form className="message-form" onSubmit={this.handleFormSubmit}>
+      <form className="message-form" onSubmit={this.handleFormSubmit} style={{ width: '50%' }}>
         <div className="input-container">
           <input
             type="text"

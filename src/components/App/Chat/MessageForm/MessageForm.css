@@ -1,0 +1,36 @@
+.message-form {
+  position: absolute;
+  bottom: 0;
+  display: flex;
+  background: #eee;
+  border-top: 1px solid #ccc;
+  border-radius: 0 0 3px 3px;
+  box-sizing: border-box;
+  flex: 0 0 30px;
+}
+
+.message-form .input-container {
+  flex: 1;
+  width: 100%;
+  margin: 1px;
+}
+
+.message-form .button-container {
+  flex: 0 0 6em;
+  margin: 1px 1px 1px 0;
+}
+
+.message-form input, .message-form button {
+  background: #fff;
+  border-radius: 3px;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+  font-size: inherit;
+  height: 100%;
+  outline: none;
+  width: 100%;
+}
+
+.message-form input {
+  padding: 0 0 0 4px;
+}

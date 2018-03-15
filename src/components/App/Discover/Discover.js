@@ -5,16 +5,17 @@ import { Button, Card, Checkbox, Container, Form, Grid, Header, Image, Segment }
 import TwilioChat from 'twilio-chat';
 import { fetchAllUsers } from '../../../store/users/actions';
 import { getChatToken } from '../../../store/chat/actions';
+import { pair, unpair } from '../../../services/chat';
 import './Discover.css';
 
 class Discover extends Component {
   constructor(props) {
     super(props);
 
-    this.chatClient = null;
     this.state = {
       showMentors: true,
-      showMentees: true
+      showMentees: true,
+      chatClient: null
     };
 
     autoBind(this);
@@ -41,10 +42,34 @@ class Discover extends Component {
 
   sendMessage(toUser) {
     this.props.getTwilioChatToken(this.props.liu).then(() => {
-      this.chatClient = new TwilioChat(this.props.chatToken.jwt);
-      this.chatClient.createChannel({
-        uniqueName: this.props.liu.id  + '_' + toUser.id + '_' + (new Date()).getTime(),
-        friendlyName: this.props.liu.f_name + ' and ' + toUser.f_name
+      this.setState({chatClient: new TwilioChat(this.props.chatToken.jwt)});
+    }).then(() => {
+      let uniqueName = pair(this.props.liu.id, toUser.id).toString();
+
+      // Check if channel exists
+      this.state.chatClient.getSubscribedChannels().then(() => {
+        this.state.chatClient.getPublicChannelDescriptors().then(channelDescriptorPaginator => {
+          let channelDescriptors = channelDescriptorPaginator.state.items;
+          let exists = false;
+
+          for (let i = 0; i < channelDescriptors.length; i++) {
+            if (uniqueName === channelDescriptors[i].uniqueName) {
+              exists = true;
+              break;
+            }
+          }
+
+          // If channel does not exist, create a new one
+          if (!exists) {
+            this.state.chatClient.createChannel({
+              uniqueName: uniqueName,
+              friendlyName: this.props.liu.f_name + ' and ' + toUser.f_name,
+              isPrivate: true
+            });
+          }
+
+          this.props.history.push('/chat/?channel=' + uniqueName);
+        });
       });
     });
   }

@@ -11,23 +11,23 @@ class Landing extends Component {
 
   constructor(props) {
     super();
-
-    window.onload = function() {
-      Particles.init({
-        selector: '.background',
-        maxParticles: 400,
-        sizeVariations: 3,
-        speed: 0.5,
-        color: ['#2185d0'],
-        minDistance: 70,
-        connectParticles: true
-      });
-    }
   }
 
   componentDidMount() {
     if (this.props.liu && this.props.liu.f_name) {
       this.props.history.push('/discover');
+    } else {
+      window.onload = function() {
+        Particles.init({
+          selector: '.background',
+          maxParticles: 400,
+          sizeVariations: 3,
+          speed: 0.5,
+          color: ['#2185d0'],
+          minDistance: 70,
+          connectParticles: true
+        });
+      }
     }
   }
 

@@ -6,6 +6,7 @@ import ChannelList from './ChannelList/ChannelList';
 import MessageList from './MessageList/MessageList';
 import MessageForm from './MessageForm/MessageForm';
 import TwilioChat from 'twilio-chat';
+import { getChatToken } from '../../../store/chat/actions';
 import './Chat.css';
 
 class Chat extends Component {
@@ -23,25 +24,16 @@ class Chat extends Component {
   }
 
   componentDidMount() {
-    this.setState({
-      messages: [...this.state.messages, { body: `Connecting...` }],
-    });
+    let channelId = this.props.location.search.split('?channel=')[1];
 
-    fetch(process.env.REACT_APP_API_URL + '/chat/token', {
-      method: 'GET',
-      headers: {
-        'Authorization': 'Bearer ' + this.props.liu.token
-      },
+    this.props.getTwilioChatToken(this.props.liu).then(() => {
+      this.setState({
+        username: this.props.chatToken.identity,
+        chatClient: new TwilioChat(this.props.chatToken.jwt)
+      });
     })
-      .then(res => res.json())
-      .then((token) => {
-        this.setState({
-          username: token.identity,
-          chatClient: new TwilioChat(token.jwt)
-        });
-      })
-      .then(this.joinGeneralChannel)
-      .then(this.fetchChannels);
+    .then(this.joinChannel.bind(null, channelId ? channelId : 'general'))
+    .then(this.fetchChannels);
   }
 
   fetchChannels() {
@@ -52,10 +44,10 @@ class Chat extends Component {
     })
   }
 
-  joinGeneralChannel = () => {
+  joinChannel = (uniqueName, data) => {
     return new Promise((resolve, reject) => {
       this.state.chatClient.getSubscribedChannels().then(() => {
-        this.state.chatClient.getChannelByUniqueName('general').then((channel) => {
+        this.state.chatClient.getChannelByUniqueName(uniqueName).then((channel) => {
           this.setState({ channel })
 
           channel.on('messageAdded', ({ author, body }) => {
@@ -83,18 +75,8 @@ class Chat extends Component {
           }).catch(() => reject(Error('Could not join general channel.')))
 
           resolve(channel)
-        }).catch(() => this.createGeneralChannel(this.state.chatClient))
+        }).catch(() => {})
       }).catch(() => reject(Error('Could not get channel list.')))
-    })
-  }
-
-  createGeneralChannel = () => {
-    return new Promise((resolve, reject) => {
-      this.addMessage({ body: 'Creating general channel...' });
-      this.state.chatClient
-        .createChannel({ uniqueName: 'general', friendlyName: 'General Chat' })
-        .then(() => this.joinGeneralChannel(this.state.chatClient))
-        .catch(() => reject(Error('Could not create general channel.')))
     })
   }
 
@@ -130,12 +112,17 @@ class Chat extends Component {
 
 function mapStateToProps(state) {
   return {
-    liu: state.users.liu
+    liu: state.users.liu,
+    chatToken: state.chat.token
   }
 }
 
 function mapDispatchToProps(dispatch) {
-  return {}
+  return {
+    getTwilioChatToken(user) {
+      return dispatch(getChatToken(user))
+    }
+  }
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Chat)

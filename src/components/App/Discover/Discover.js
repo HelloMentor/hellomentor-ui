@@ -44,8 +44,6 @@ class Discover extends Component {
     let name = pair(this.props.liu.id, toUser.id).toString();
     let foundChannel;
 
-    console.log(liuChannels);
-
     // Determine if liu has a conversation with toUser already
     if (liuChannels && liuChannels.length) {
       foundChannel = liuChannels.find(c => name === c.name);

@@ -4,7 +4,6 @@ import autoBind from 'react-autobind';
 import { Container } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
 import Message from './Message/Message';
-// import { setLoggedInUser } from '../../../store/users/actions';
 
 class MessageList extends Component {
   static propTypes = {
@@ -20,11 +19,16 @@ class MessageList extends Component {
     autoBind(this);
   }
 
+  componentDidUpdate() {
+    const objDiv = document.getElementById('MessageList');
+    objDiv.scrollTop = objDiv.scrollHeight;
+  }
+
   render() {
     return (
-      <Container textAlign="left" fluid>
+      <Container id="MessageList" textAlign="left" fluid>
         {this.props.messages.map((message, i) => (
-          <Message key={i} {...message} />
+          <Message key={i} author={message.user_fullname} {...message} />
         ))}
       </Container>
     );

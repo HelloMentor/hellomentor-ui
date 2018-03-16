@@ -34,6 +34,14 @@ export default function(state = initialState, action) {
         ...state,
         liu: {}
       }
+    case types.ADD_CHANNEL_TO_LIU:
+      return {
+        ...state,
+        liu: {
+          ...state.liu,
+          channels: state.liu.channels.concat(action.channel)
+        }
+      }
     default:
       return state;
   }

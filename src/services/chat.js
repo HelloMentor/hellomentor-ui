@@ -1,9 +1,11 @@
-export function getChatToken(user) {
-  return fetch(process.env.REACT_APP_API_URL + '/chat/token', {
-    method: 'GET',
+export function postChannel(channel, liu) {
+  return fetch(process.env.REACT_APP_API_URL + '/chat/channels', {
+    method: 'POST',
     headers: {
-      'Authorization': 'Bearer ' + user.token
+      'Authorization': 'Bearer ' + liu.token,
+      'Content-Type': 'application/json'
     },
+    body: JSON.stringify({ channel })
   });
 }
 

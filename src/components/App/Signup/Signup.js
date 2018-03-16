@@ -26,7 +26,8 @@ class Signup extends Component {
         linkedin_u_name: '',
         skills: [],
         wanted_skills: [],
-        summary: ''
+        summary: '',
+        channels: []
       },
       genderOptions: [
         { key: 'Male', text: 'Male', value: 'Male' },

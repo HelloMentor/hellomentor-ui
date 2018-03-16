@@ -12,7 +12,6 @@ class Message extends Component {
 
   render() {
     const classes = classNames('Message', {
-      log: !this.props.author,
       me: this.props.me
     });
 

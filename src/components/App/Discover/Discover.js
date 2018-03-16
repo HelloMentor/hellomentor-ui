@@ -2,10 +2,9 @@ import React, { Component } from 'react';
 import autoBind from 'react-autobind';
 import { connect } from 'react-redux';
 import { Button, Card, Checkbox, Container, Form, Grid, Header, Image, Segment } from 'semantic-ui-react'
-import TwilioChat from 'twilio-chat';
-import { fetchAllUsers } from '../../../store/users/actions';
-import { getChatToken } from '../../../store/chat/actions';
-import { pair, unpair } from '../../../services/chat';
+import { fetchAllUsers, addChannelToLiu } from '../../../store/users/actions';
+import { createChannel } from '../../../store/chat/actions';
+import { pair } from '../../../services/chat';
 import './Discover.css';
 
 class Discover extends Component {
@@ -41,37 +40,35 @@ class Discover extends Component {
   }
 
   sendMessage(toUser) {
-    this.props.getTwilioChatToken(this.props.liu).then(() => {
-      this.setState({chatClient: new TwilioChat(this.props.chatToken.jwt)});
-    }).then(() => {
-      let uniqueName = pair(this.props.liu.id, toUser.id).toString();
+    let liuChannels = this.props.liu.channels;
+    let name = pair(this.props.liu.id, toUser.id).toString();
+    let foundChannel;
 
-      // Check if channel exists
-      this.state.chatClient.getSubscribedChannels().then(() => {
-        this.state.chatClient.getPublicChannelDescriptors().then(channelDescriptorPaginator => {
-          let channelDescriptors = channelDescriptorPaginator.state.items;
-          let exists = false;
+    console.log(liuChannels);
 
-          for (let i = 0; i < channelDescriptors.length; i++) {
-            if (uniqueName === channelDescriptors[i].uniqueName) {
-              exists = true;
-              break;
-            }
-          }
+    // Determine if liu has a conversation with toUser already
+    if (liuChannels && liuChannels.length) {
+      foundChannel = liuChannels.find(c => name === c.name);
+    }
 
-          // If channel does not exist, create a new one
-          if (!exists) {
-            this.state.chatClient.createChannel({
-              uniqueName: uniqueName,
-              friendlyName: this.props.liu.f_name + ' and ' + toUser.f_name,
-              isPrivate: true
-            });
-          }
-
-          this.props.history.push('/chat/?channel=' + uniqueName);
-        });
+    // If so, join it. Otherwise, create it.
+    if (foundChannel) {
+      this.props.history.push('/chat/' + foundChannel.id);
+    } else {
+      this.props.createChannel({
+        name: name,
+        friendlyName: this.props.liu.f_name + ' and ' + toUser.f_name,
+        type: 'direct',
+        isPrivate: true,
+        creator: this.props.liu.id,
+        members: [this.props.liu.id, toUser.id],
+        admins: [this.props.liu.id],
+        description: 'A conversation between ' + this.props.liu.f_name + ' and ' + toUser.f_name
+      }, this.props.liu).then((channel) => {
+        this.props.addChannelToLiu(channel, this.props.liu);
+        this.props.history.push('/chat/' + channel.id);
       });
-    });
+    }
   }
 
   render() {
@@ -145,8 +142,11 @@ function mapDispatchToProps(dispatch) {
     loadUsers() {
       dispatch(fetchAllUsers())
     },
-    getTwilioChatToken(user) {
-      return dispatch(getChatToken(user))
+    addChannelToLiu(channel) {
+      dispatch(addChannelToLiu(channel))
+    },
+    createChannel(channel, liu) {
+      return dispatch(createChannel(channel, liu))
     }
   }
 }

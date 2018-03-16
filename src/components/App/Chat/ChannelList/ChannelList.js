@@ -6,13 +6,11 @@ import PropTypes from 'prop-types';
 
 class ChannelList extends Component {
   static propTypes = {
-    publicChannelDescriptors: PropTypes.arrayOf(PropTypes.object),
-    privateChannelDescriptors: PropTypes.arrayOf(PropTypes.object)
+    channels: PropTypes.arrayOf(PropTypes.object)
   }
 
   static defaultProps = {
-    publicChannelDescriptors: [],
-    privateChannelDescriptors: []
+    channels: []
   }
 
   constructor(props) {
@@ -25,14 +23,14 @@ class ChannelList extends Component {
       <Container textAlign="left" fluid>
         <div>
           <h3>Channels</h3>
-          {this.props.publicChannelDescriptors.map((channelDescriptor, i) => (
-            <div key={i}>{channelDescriptor.friendlyName}</div>
+          {this.props.channels.map((channel, i) => (
+            (channel.type === 'community') ? <div key={i}>{channel.name}</div> : ''
           ))}
         </div>
         <div>
           <h3>Direct Messages</h3>
-          {this.props.privateChannelDescriptors.map((channelDescriptor, i) => (
-            <div key={i}>{channelDescriptor.friendlyName}</div>
+          {this.props.channels.map((channel, i) => (
+            (channel.type === 'direct') ? <div key={i}>{channel.name}</div> : ''
           ))}
         </div>
       </Container>

@@ -20,6 +20,7 @@
     "redux-logger": "^3.0.6",
     "redux-thunk": "^2.2.0",
     "semantic-ui-react": "^0.77.2",
+    "socket.io": "^2.0.4",
     "twilio-chat": "1.1.2"
   },
   "scripts": {

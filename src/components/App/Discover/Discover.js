@@ -63,8 +63,8 @@ class Discover extends Component {
         admins: [this.props.liu.id],
         description: 'A conversation between ' + this.props.liu.f_name + ' and ' + toUser.f_name
       }, this.props.liu).then((channel) => {
+        this.props.history.push('/chat/' + channel.channel.id);
         this.props.addChannelToLiu(channel, this.props.liu);
-        this.props.history.push('/chat/' + channel.id);
       });
     }
   }
@@ -140,8 +140,8 @@ function mapDispatchToProps(dispatch) {
     loadUsers() {
       dispatch(fetchAllUsers())
     },
-    addChannelToLiu(channel) {
-      dispatch(addChannelToLiu(channel))
+    addChannelToLiu(channel, liu) {
+      dispatch(addChannelToLiu(channel, liu))
     },
     createChannel(channel, liu) {
       return dispatch(createChannel(channel, liu))

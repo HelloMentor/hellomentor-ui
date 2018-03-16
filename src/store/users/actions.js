@@ -53,7 +53,7 @@ export function updateUser(user, profileImage) {
 export function addChannelToLiu(channel, liu) {
   return dispatch => {
     liu.channels.push(channel);
-    localStorage.setItem('liu', JSON.stringify(liu));
+    localStorage.setItem('liu', JSON.stringify({ user: liu }));
     dispatch({ type: types.ADD_CHANNEL_TO_LIU, channel: channel.channel });
   }
 }

@@ -34,6 +34,9 @@ class App extends Component {
           this.loading = false;
           this.forceUpdate();
         });
+    } else {
+      this.loading = false;
+      this.forceUpdate();
     }
   }
 

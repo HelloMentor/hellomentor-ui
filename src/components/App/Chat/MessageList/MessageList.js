@@ -28,7 +28,7 @@ class MessageList extends Component {
     return (
       <Container id="MessageList" textAlign="left" fluid>
         {this.props.messages.map((message, i) => (
-          <Message key={i} author={message.user_fullname} {...message} />
+          <Message key={i} author={message.user_id} {...message} />
         ))}
       </Container>
     );

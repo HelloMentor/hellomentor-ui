@@ -9,6 +9,24 @@ export function postChannel(channel, liu) {
   });
 }
 
+export function getChannel(channelId) {
+  return fetch(process.env.REACT_APP_API_URL + '/chat/channels/' + channelId, {
+    method: 'GET',
+    headers: { 'Content-Type': 'application/json' }
+  });
+}
+
+export function postMessage(message, liu) {
+  return fetch(process.env.REACT_APP_API_URL + '/chat/channels/' + message.channel_id + '/messages' , {
+    method: 'POST',
+    headers: {
+      'Authorization': 'Bearer ' + liu.token,
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({ message })
+  });
+}
+
 export function pair(userIdA, userIdB) {
   var a = parseInt(userIdA, 16);
   var b = parseInt(userIdB, 16);

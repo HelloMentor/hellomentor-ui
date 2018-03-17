@@ -24,13 +24,13 @@ class ChannelList extends Component {
         <div>
           <h3>Channels</h3>
           {this.props.channels.map((channel, i) => (
-            (channel.type === 'community') ? <div key={i}>{channel.friendlyName}</div> : ''
+            (channel.type === 'community') ? <div key={i}><a href={'/chat/' + channel.id}>{channel.friendlyName}</a></div> : ''
           ))}
         </div>
         <div>
           <h3>Direct Messages</h3>
           {this.props.channels.map((channel, i) => (
-            (channel.type === 'direct') ? <div key={i}>{channel.friendlyName}</div> : ''
+            (channel.type === 'direct') ? <div key={i}><a href={'/chat/' + channel.id}>{channel.friendlyName}</a></div> : ''
           ))}
         </div>
       </Container>

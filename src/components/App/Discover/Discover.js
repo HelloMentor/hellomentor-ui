@@ -21,9 +21,6 @@ class Discover extends Component {
   }
 
   componentDidMount() {
-    if (!this.props.liu.f_name) {
-      this.props.history.push('/');
-    }
     this.props.loadUsers();
   }
 
@@ -130,8 +127,7 @@ function mapStateToProps(state) {
   return {
     usersById: state.users.usersById,
     usersArray: state.users.usersArray,
-    liu: state.users.liu,
-    chatToken: state.chat.token
+    liu: state.users.liu
   }
 }
 

@@ -13,16 +13,24 @@ import Profile from './Profile/Profile';
 import Chat from './Chat/Chat';
 import { Container } from 'semantic-ui-react';
 import store from '../../store';
-import * as types from '../../store/users/actionTypes';
-
-// restore last session
-let user = localStorage.getItem('liu');
-if (user !== null) {
-  user = JSON.parse(user);
-  store.dispatch({ type: types.SET_LIU, user });
-}
+import { fetchLoggedInUser } from '../../store/users/actions';
 
 class App extends Component {
+  constructor(props) {
+    super(props);
+
+    // restore last session
+    let user = localStorage.getItem('liu');
+    if (user) {
+      user = JSON.parse(user).user;
+      if (!user || !user.token) {
+        console.error('faulty liu in localstorage');
+        return;
+      }
+      store.dispatch(fetchLoggedInUser(user.id, user.token));
+    }
+  }
+
   render() {
     return (
       <Provider store={store}>

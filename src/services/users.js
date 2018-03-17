@@ -5,10 +5,13 @@ export function getAllUsers() {
   });
 }
 
-export function getLoggedInUser() {
-  return fetch(process.env.REACT_APP_API_URL + '/users', {
+export function getFullyAuthedUser(userId, token) {
+  return fetch(process.env.REACT_APP_API_URL + '/users/auth/' + userId, {
     method: 'GET',
-    headers: { 'Content-Type': 'application/json' }
+    headers: {
+      'Authorization': 'Bearer ' + token,
+      'Content-Type': 'application/json'
+    }
   });
 }
 

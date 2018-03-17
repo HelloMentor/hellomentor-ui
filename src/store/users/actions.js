@@ -19,6 +19,16 @@ export function setLoggedInUser(user) {
   }
 }
 
+export function fetchLoggedInUser(userId, token) {
+  return dispatch => {
+    services.getFullyAuthedUser(userId, token)
+      .then(res => res.json())
+      .then(user => {
+        dispatch({ type: types.SET_LIU, user });
+      });
+  }
+}
+
 export function login(user) {
   return dispatch => {
     // send back promise so we can take user to next page after login

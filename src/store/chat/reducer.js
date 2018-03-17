@@ -24,6 +24,11 @@ export default function(state = initialState, action) {
           messages: state.currentChannel.messages.concat(action.message)
         }
       }
+    case types.FETCH_CHANNELS:
+      return {
+        ...state,
+        channels: action.channels
+      }
     case types.ADD_CHANNEL:
       return {
         ...state,

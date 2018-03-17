@@ -40,3 +40,14 @@ export function setCurrentChannel(channelId) {
       });
   }
 }
+
+export function fetchChannels(user) {
+  return dispatch => {
+    return services.getChannels(user)
+      .then(res => res.json())
+      .then(channels => {
+        dispatch({ type: types.FETCH_CHANNELS, channels: channels.channels });
+        return channels.channels;
+      });
+  }
+}

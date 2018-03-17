@@ -16,6 +16,16 @@ export function getChannel(channelId) {
   });
 }
 
+export function getChannels(liu) {
+  return fetch(process.env.REACT_APP_API_URL + '/chat/channels/?user_id=' + liu.id, {
+    method: 'GET',
+    headers: {
+      'Authorization': 'Bearer ' + liu.token,
+      'Content-Type': 'application/json'
+    }
+  });
+}
+
 export function postMessage(message, liu) {
   return fetch(process.env.REACT_APP_API_URL + '/chat/channels/' + message.channel_id + '/messages' , {
     method: 'POST',

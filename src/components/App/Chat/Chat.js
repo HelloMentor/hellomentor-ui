@@ -33,6 +33,7 @@ class Chat extends Component {
   handleNewMessage(text) {
     const message = {
       user_id: this.props.liu.id,
+      user_fullname: this.props.liu.f_name + ' ' + this.props.liu.l_name,
       body: text,
       channel_id: this.currentChannelId
     };
@@ -53,7 +54,7 @@ class Chat extends Component {
             <ChannelList channels={ this.props.liu.channels } />
           </Grid.Column>
           <Grid.Column width={14}>
-            <MessageList messages={ this.props.currentChannel.messages } />
+            <MessageList channel={ this.props.currentChannel } />
             <MessageForm onMessageSend={ this.handleNewMessage } />
           </Grid.Column>
         </Grid>

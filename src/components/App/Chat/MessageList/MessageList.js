@@ -7,11 +7,11 @@ import Message from './Message/Message';
 
 class MessageList extends Component {
   static propTypes = {
-    messages: PropTypes.arrayOf(PropTypes.object)
+    channel: PropTypes.object
   }
 
   static defaultProps = {
-    messages: [],
+    channel: {}
   }
 
   constructor(props) {
@@ -27,8 +27,8 @@ class MessageList extends Component {
   render() {
     return (
       <Container id="MessageList" textAlign="left" fluid>
-        {this.props.messages.map((message, i) => (
-          <Message key={i} author={message.user_id} {...message} />
+        {this.props.channel.messages.map((message, i) => (
+          <Message key={i} author={message.user_fullname} {...message} />
         ))}
       </Container>
     );
@@ -36,7 +36,9 @@ class MessageList extends Component {
 }
 
 function mapStateToProps(state) {
-  return {}
+  return {
+    usersById: state.users.usersById
+  }
 }
 
 function mapDispatchToProps(dispatch) {

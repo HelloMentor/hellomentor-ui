@@ -12,18 +12,6 @@ class Header extends Component {
     autoBind(this);
   }
 
-  goToLogin() {
-    this.props.history.push('/login');
-  }
-
-  goToProfile() {
-    this.props.history.push('/profile');
-  }
-
-  goToChat() {
-    this.props.history.push('/chat');
-  }
-
   submitLogout(event) {
     event.preventDefault();
     this.props.logoutUser();
@@ -45,8 +33,9 @@ class Header extends Component {
         {
           (this.props.liu && this.props.liu.f_name)
           ? <Menu.Menu position='right'>
-              <Menu.Item name='chat' onClick={this.goToChat} />
-              <Menu.Item name='profile' onClick={this.goToProfile} />
+              <Menu.Item name='discover' onClick={() => this.props.history.push('/discover')} />
+              <Menu.Item name='chat' onClick={() => this.props.history.push('/chat')} />
+              <Menu.Item name='profile' onClick={() => this.props.history.push('/profile')} />
               <Menu.Item name='logout' onClick={this.submitLogout} />
             </Menu.Menu>
           : <Menu.Item name='login' position='right' onClick={this.goToLogin} />

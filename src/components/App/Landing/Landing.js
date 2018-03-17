@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { Button, Container, Card, Grid, Header, Icon, List } from 'semantic-ui-react'
+import { Button, Container, Card, Grid, Header, List } from 'semantic-ui-react'
 import Particles from 'particlesjs';
 import Footer from '../Footer/Footer';
 import './Landing.css';

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import autoBind from 'react-autobind';
-import { Container } from 'semantic-ui-react';
+import { Container, Header } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
 
 class ChannelList extends Component {
@@ -20,19 +20,19 @@ class ChannelList extends Component {
 
   render() {
     return (
-      <Container textAlign="left" fluid>
-        <div>
-          <h3>Channels</h3>
+      <Container textAlign="left" fluid style={{padding: '10px'}}>
+        <Container>
+          <Header as='h3'>Channels</Header>
           {this.props.channels.map((channel, i) => (
             (channel.type === 'community') ? <div key={i}><a href={'/chat/' + channel.id}>{channel.friendlyName}</a></div> : ''
           ))}
-        </div>
-        <div>
-          <h3>Direct Messages</h3>
+        </Container>
+        <Container style={{marginTop: '20px'}}>
+          <Header as='h3'>Direct Messages</Header>
           {this.props.channels.map((channel, i) => (
             (channel.type === 'direct') ? <div key={i}><a href={'/chat/' + channel.id}>{channel.friendlyName}</a></div> : ''
           ))}
-        </div>
+        </Container>
       </Container>
     );
   }

@@ -18,7 +18,7 @@ class Message extends Component {
     return (
       <div className={classes}>
         {this.props.author && (
-          <span className="author">{this.props.author}:</span>
+          <div className="author">{this.props.author}</div>
         )}
         {this.props.body}
       </div>

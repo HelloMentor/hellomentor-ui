@@ -19,6 +19,8 @@ class App extends Component {
   constructor(props) {
     super(props);
 
+    this.loading = true;
+
     // restore last session
     let user = localStorage.getItem('liu');
     if (user) {
@@ -27,11 +29,17 @@ class App extends Component {
         console.error('faulty liu in localstorage');
         return;
       }
-      store.dispatch(fetchLoggedInUser(user.id, user.token));
+      store.dispatch(fetchLoggedInUser(user.id, user.token))
+        .then(user => {
+          this.loading = false;
+          this.forceUpdate();
+        });
     }
   }
 
   render() {
+    if (this.loading) return null;
+
     return (
       <Provider store={store}>
         <BrowserRouter>

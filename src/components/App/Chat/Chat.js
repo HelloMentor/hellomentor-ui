@@ -6,7 +6,7 @@ import ChannelList from './ChannelList/ChannelList';
 import MessageList from './MessageList/MessageList';
 import MessageForm from './MessageForm/MessageForm';
 import io from 'socket.io-client';
-import { sendMessage, receiveMessage, setCurrentChannel } from '../../../store/chat/actions';
+import { sendMessage, receiveMessage, setCurrentChannel, fetchChannels } from '../../../store/chat/actions';
 import './Chat.css';
 
 class Chat extends Component {
@@ -14,20 +14,28 @@ class Chat extends Component {
     super(props);
     autoBind(this);
 
+    // Current channel is the ID in the navbar
     this.currentChannelId = this.props.location.pathname.split('/')[2];
-    this.props.setCurrentChannel(this.currentChannelId);
 
-    this.socket = io(process.env.API_URL);
-    this.socket.on('server:message', message => {
-      // Do not accept if sent from me originally or if not part of this channel
-      if ((message.user_id === this.props.liu.id) || (message.channel_id !== this.currentChannelId)) {
-        return;
-      }
-      this.props.receiveMessage(message);
-    });
-  }
+    // Fetch channels to set up channel list
+    this.props.fetchChannels(this.props.liu)
+      .then((channels) => {
+        // If there is not a current channel, make it the general channel
+        if (!this.currentChannelId) {
+          this.currentChannelId = channels.find(c => c.name === 'general').id;
+        }
 
-  componentDidMount() {
+        this.props.setCurrentChannel(this.currentChannelId);
+
+        this.socket = io(process.env.API_URL);
+        this.socket.on('server:message', message => {
+          // Do not accept if sent from me originally or if not part of this channel
+          if ((message.user_id === this.props.liu.id) || (message.channel_id !== this.currentChannelId)) {
+            return;
+          }
+          this.props.receiveMessage(message);
+        });
+      });
   }
 
   handleNewMessage(text) {
@@ -43,7 +51,7 @@ class Chat extends Component {
   }
 
   render() {
-    if (!this.props.liu.channels || !this.props.liu.channels.length) {
+    if (!this.props.channels.length || !this.props.currentChannel.name) {
       return null;
     }
 
@@ -51,7 +59,7 @@ class Chat extends Component {
       <Container fluid>
         <Grid columns={16} divided style={{ height: 'calc(100vh - 4.5em)' }}>
           <Grid.Column width={2}>
-            <ChannelList channels={ this.props.liu.channels } />
+            <ChannelList channels={ this.props.channels } />
           </Grid.Column>
           <Grid.Column width={14}>
             <MessageList channel={ this.props.currentChannel } />
@@ -66,6 +74,7 @@ class Chat extends Component {
 function mapStateToProps(state) {
   return {
     liu: state.users.liu,
+    channels: state.chat.channels,
     currentChannel: state.chat.currentChannel
   }
 }
@@ -80,6 +89,9 @@ function mapDispatchToProps(dispatch) {
     },
     setCurrentChannel(channelId) {
       dispatch(setCurrentChannel(channelId));
+    },
+    fetchChannels(liu) {
+      return dispatch(fetchChannels(liu));
     }
   }
 }

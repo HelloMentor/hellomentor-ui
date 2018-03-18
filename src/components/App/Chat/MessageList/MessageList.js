@@ -2,8 +2,10 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import autoBind from 'react-autobind';
 import { Container } from 'semantic-ui-react';
+import moment from 'moment';
 import PropTypes from 'prop-types';
 import Message from './Message/Message';
+import './MessageList.css';
 
 class MessageList extends Component {
   static propTypes = {
@@ -26,9 +28,9 @@ class MessageList extends Component {
 
   render() {
     return (
-      <Container id="MessageList" textAlign="left" fluid>
+      <Container id="MessageList" className="MessageList" textAlign="left" fluid>
         {this.props.channel.messages.map((message, i) => (
-          <Message key={i} author={message.user_fullname} {...message} />
+          <Message key={i} author={message.user_fullname} time={moment(new Date(message.createdAt)).format('h:mm a')} {...message} />
         ))}
       </Container>
     );

@@ -27,7 +27,7 @@ class MessageForm extends Component {
 
   render() {
     return (
-      <Container fluid style={{position: 'absolute', bottom: '15px'}}>
+      <Container className='MessageForm'>
         <Form className="message-form" onSubmit={this.handleFormSubmit}>
           <Input
             name='field'
@@ -35,7 +35,7 @@ class MessageForm extends Component {
             fluid
             ref={(node) => (this.input = node)}
             placeholder="Type your message..."
-            style={{float: 'left', width: '700px'}}
+            style={{float: 'left', width: '100%'}}
             onChange={this.handleChange}
             action={{ icon: 'send', content: 'Send', labelPosition: 'left', color: 'blue' }}
           />

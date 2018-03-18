@@ -1,13 +1,12 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import autoBind from 'react-autobind';
-import { Container, Grid } from 'semantic-ui-react';
+import { Container, Grid, Header } from 'semantic-ui-react';
 import ChannelList from './ChannelList/ChannelList';
 import MessageList from './MessageList/MessageList';
 import MessageForm from './MessageForm/MessageForm';
 import io from 'socket.io-client';
 import { sendMessage, receiveMessage, setCurrentChannel, fetchChannels } from '../../../store/chat/actions';
-import './Chat.css';
 
 class Chat extends Component {
   constructor(props) {
@@ -43,7 +42,8 @@ class Chat extends Component {
       user_id: this.props.liu.id,
       user_fullname: this.props.liu.f_name + ' ' + this.props.liu.l_name,
       body: text,
-      channel_id: this.currentChannelId
+      channel_id: this.currentChannelId,
+      createdAt: new Date()
     };
 
     this.socket.emit('client:message', message);
@@ -56,17 +56,16 @@ class Chat extends Component {
     }
 
     return (
-      <Container fluid>
-        <Grid columns={16} divided style={{ height: 'calc(100vh - 4.5em)' }}>
+        <Grid divided style={{ height: 'calc(100vh - 4.5em)' }}>
           <Grid.Column width={2}>
             <ChannelList channels={ this.props.channels } />
           </Grid.Column>
           <Grid.Column width={14}>
+            <Header as='h3' style={{textAlign: 'left'}}>{ this.props.currentChannel.friendlyName }</Header>
             <MessageList channel={ this.props.currentChannel } />
             <MessageForm onMessageSend={ this.handleNewMessage } />
           </Grid.Column>
         </Grid>
-      </Container>
     );
   }
 }

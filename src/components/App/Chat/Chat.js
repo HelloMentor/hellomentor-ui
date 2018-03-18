@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import autoBind from 'react-autobind';
-import { Container, Grid, Header } from 'semantic-ui-react';
+import { Grid, Header } from 'semantic-ui-react';
 import ChannelList from './ChannelList/ChannelList';
 import MessageList from './MessageList/MessageList';
 import MessageForm from './MessageForm/MessageForm';

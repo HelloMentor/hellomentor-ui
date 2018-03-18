@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Button, Container, Form, Icon, Input } from 'semantic-ui-react'
+import { Container, Form, Input } from 'semantic-ui-react'
 import PropTypes from 'prop-types'
 import './MessageForm.css'
 

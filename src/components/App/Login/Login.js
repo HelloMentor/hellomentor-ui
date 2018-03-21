@@ -34,7 +34,19 @@ class Login extends Component {
 
   submitLogin(event) {
     event.preventDefault();
-    this.props.loginUser(this.state.user, this.props.history);
+    this.props.loginUser(this.state.user)
+      .then(() => {
+        this.props.history.push('/discover');
+      })
+      .catch(err => {
+        Promise.resolve(err).then(err => {
+          if (err.message) {
+            alert(err.message);
+          } else {
+            alert(err);
+          }
+        })
+      });
   }
 
   render() {
@@ -64,10 +76,8 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    loginUser(user, history) {
-      dispatch(login(user)).then(() => {
-        history.push('/discover');
-      });
+    loginUser(user) {
+      return dispatch(login(user));
     }
   }
 }

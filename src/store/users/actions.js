@@ -53,10 +53,18 @@ export function login(user) {
   return dispatch => {
     // send back promise so we can take user to next page after login
     return services.login(user)
-      .then(res => res.json())
+      .then(res => {
+        if (!res.ok) {
+          throw res.json();
+        }
+        return res.json();
+      })
       .then(user => {
         localStorage.setItem('liu', JSON.stringify(user));
         dispatch({ type: types.LOGIN, user });
+      })
+      .catch(err => {
+        throw err;
       });
   }
 }
@@ -72,7 +80,12 @@ export function updateUser(user, profileImage) {
   return dispatch => {
     // send back promise so we can take user to next page after update
     return services.updateUser(user, profileImage)
-      .then(res => res.json())
+      .then(res => {
+        if (!res.ok) {
+          throw res.json();
+        }
+        return res.json();
+      })
       .then(user => {
         localStorage.setItem('liu', JSON.stringify(user));
         dispatch({ type: types.UPDATE_LIU, user });

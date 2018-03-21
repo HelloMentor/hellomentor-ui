@@ -16,6 +16,12 @@ export function getFullyAuthedUser(userId, token) {
 }
 
 export function login(user) {
+  try {
+    validateUser(user, 'login');
+  } catch(err) {
+    return Promise.reject(err.message);
+  }
+
   return fetch(process.env.REACT_APP_API_URL + '/users/login', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
@@ -61,9 +67,17 @@ export function updateUser(user, profileImage) {
 }
 
 function validateUser(user, type) {
-  const requiredFields = ['email', 'password', 'f_name', 'l_name', 'headline', 'summary'];
+  let requiredFields = [];
 
-  for (let field of requiredFields) {
+  if (type === 'signup') {
+    requiredFields = ['email', 'password', 'f_name', 'l_name', 'headline', 'summary'];
+  } else if (type === 'update') {
+    requiredFields = ['email', 'f_name', 'l_name', 'headline', 'summary'];
+  } else if (type === 'login') {
+    requiredFields = ['email', 'password'];
+  }
+
+  for (const field of requiredFields) {
     if (!user[field]) {
       let alertFieldText;
 
@@ -74,7 +88,6 @@ function validateUser(user, type) {
       } else if (field === 'email') {
         alertFieldText = 'your email address';
       } else if (field === 'password') {
-        if (type !== 'signup') continue;
         alertFieldText = 'a 7 character or longer password';
       } else if (field === 'headline') {
         alertFieldText = 'a headline';

@@ -167,28 +167,6 @@ class Signup extends Component {
                 <TextArea name='summary' placeholder='Share a little about what makes you a great mentor' onChange={this.handleChange} />
               </Form.Field>
           }
-          {
-            (this.state.user.role === 'Mentee') ?
-              <Form.Field width={12}>
-                <label>Skills you would like mentorship in (tab-separated)</label>
-                <TagsInput value={this.state.user.wanted_skills} onChange={this.handleWantedSkillChange} />
-              </Form.Field>
-            :
-              <Form.Field width={12}>
-                <label>Your skills (tab-separated)</label>
-                <TagsInput value={this.state.user.skills} onChange={this.handleSkillChange} />
-              </Form.Field>
-          }
-          <Form.Group>
-            <Form.Field width={6}>
-              <label>City</label>
-              <Input name='city' placeholder='Hollywood' onChange={this.handleChange} />
-            </Form.Field>
-            <Form.Field width={6}>
-              <label>Country</label>
-              <Input name='country' placeholder='United States' onChange={this.handleChange} />
-            </Form.Field>
-          </Form.Group>
           <Button primary onClick={this.signup}>SUBMIT</Button>
         </Form>
       </Container>

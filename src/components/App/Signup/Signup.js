@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import autoBind from 'react-autobind';
-import { Button, Container, Form, Input, TextArea } from 'semantic-ui-react'
+import { Button, Container, Form, Header, Input, TextArea } from 'semantic-ui-react'
 import TagsInput from 'react-tagsinput';
 import 'react-tagsinput/react-tagsinput.css';
 import 'react-datepicker/dist/react-datepicker.css';
@@ -117,18 +117,22 @@ class Signup extends Component {
 
   render() {
     return (
-      <Container textAlign="left" style={{ marginTop: '2em', paddingBottom: '150px' }}>
+      <Container textAlign='left' style={{ marginTop: '2em', paddingBottom: '150px' }}>
+
+        <Header textAlign='center' as='h1'>{this.state.user.role} Signup</Header>
+
         <Form>
-          <Form.Group>
-            <Form.Field required width={6}>
-              <label>Email</label>
-              <Input name='email' placeholder='Email' onChange={this.handleChange} />
-            </Form.Field>
-            <Form.Field required width={6}>
-              <label>Password</label>
-              <Input name='password' type='password' placeholder='Password' onChange={this.handleChange} />
-            </Form.Field>
-          </Form.Group>
+          <Header as='h3'>Your Account</Header>
+          <Form.Field required width={6}>
+            <label>Email</label>
+            <Input name='email' placeholder='Email' onChange={this.handleChange} />
+          </Form.Field>
+          <Form.Field required width={6}>
+            <label>Password</label>
+            <Input name='password' type='password' placeholder='Password' onChange={this.handleChange} />
+          </Form.Field>
+
+          <Header as='h3'>Personal Details</Header>
           <Form.Group>
             <Form.Field required width={6}>
               <label>First Name</label>
@@ -155,6 +159,8 @@ class Signup extends Component {
                 <TextArea name='summary' placeholder='Share a little about what makes you a great mentor' onChange={this.handleChange} />
               </Form.Field>
           }
+
+          <Header as='h3'>More Details</Header>
           <Form.Group>
             <Form.Field width={6}>
               <label>City</label>

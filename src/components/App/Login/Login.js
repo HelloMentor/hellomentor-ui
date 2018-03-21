@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import autoBind from 'react-autobind';
-import { Button, Container, Form, Input } from 'semantic-ui-react'
+import { Button, Container, Form, Header, Input } from 'semantic-ui-react'
 import { login } from '../../../store/users/actions';
+import './Login.css';
 
 class Login extends Component {
   constructor(props) {
@@ -51,19 +52,20 @@ class Login extends Component {
 
   render() {
     return (
-      <Container textAlign="left" style={{ marginTop: '2em', paddingBottom: '150px' }}>
+      <div className='Login'>
+        <Header textAlign='center' as='h2' style={{marginBottom: '2rem'}}>Login to HelloMentor</Header>
         <Form onSubmit={this.submitLogin}>
-          <Form.Field width={6}>
+          <Form.Field>
             <label>Email</label>
             <Input name='email' type='email' placeholder='Email' value={this.state.user.email} onChange={this.handleChange} />
           </Form.Field>
-          <Form.Field width={6}>
+          <Form.Field>
             <label>Password</label>
             <Input name='password' type='password' placeholder='Password' value={this.state.user.password} onChange={this.handleChange} />
           </Form.Field>
-          <Button type='submit' value='Submit'>Login</Button>
+          <Button primary type='submit' value='Submit'>Login</Button>
         </Form>
-      </Container>
+      </div>
     );
   }
 }

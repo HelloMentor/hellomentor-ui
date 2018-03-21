@@ -38,6 +38,10 @@ class Chat extends Component {
   }
 
   handleNewMessage(text) {
+    if (!text) {
+      return;
+    }
+    
     const message = {
       user_id: this.props.liu.id,
       user_fullname: this.props.liu.f_name + ' ' + this.props.liu.l_name,

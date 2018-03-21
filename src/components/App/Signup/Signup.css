@@ -1,5 +1,12 @@
 .react-tagsinput {
   border: none;
+  padding-left: 0;
+}
+
+.react-tagsinput-tag {
+  background-color: #ddd;
+  color: rgba(0,0,0,.87);
+  border: 1px solid transparent;
 }
 
 .field-image-upload {

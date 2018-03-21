@@ -3,7 +3,7 @@ import autoBind from 'react-autobind';
 import { connect } from 'react-redux';
 import DatePicker from 'react-datepicker';
 import TagsInput from 'react-tagsinput';
-import { Button, Container, Dropdown, Form, Icon, Input, TextArea } from 'semantic-ui-react';
+import { Button, Container, Dropdown, Form, Header, Icon, Input, TextArea } from 'semantic-ui-react';
 import moment from 'moment';
 import { updateUser } from '../../../store/users/actions';
 import './Profile.css';
@@ -101,16 +101,20 @@ class Profile extends Component {
   render() {
     return (
       this.state && this.state.user &&
-      <Container textAlign="left" style={{ marginTop: '2em', paddingBottom: '150px' }}>
+      <Container textAlign="left" style={{ marginTop: '2em', paddingBottom: '1rem' }}>
+
+        <Header as='h1' style={{paddingBottom: '1rem'}}>Update Your Profile</Header>
+
         <Form>
+          <Header as='h3'>About You</Header>
           <Form.Group>
             <Form.Field required width={6}>
               <label>First Name</label>
-              <Input name='f_name' placeholder='First Name' onChange={this.handleChange} value={this.state.user.f_name} />
+              <Input name='f_name' placeholder='Elmer' onChange={this.handleChange} value={this.state.user.f_name} />
             </Form.Field>
             <Form.Field required width={6}>
               <label>Last Name</label>
-              <Input name='l_name' placeholder='Last Name' onChange={this.handleChange} value={this.state.user.l_name} />
+              <Input name='l_name' placeholder='Fudd' onChange={this.handleChange} value={this.state.user.l_name} />
             </Form.Field>
             <Form.Field width={4} className='field-image-upload'>
               <label>Profile Image</label>
@@ -123,17 +127,17 @@ class Profile extends Component {
           </Form.Group>
           <Form.Field required width={12}>
             <label>Headline</label>
-            <Input name='headline' placeholder='e.g. Founder at XYZ Corp' onChange={this.handleChange} value={this.state.user.headline} />
+            <Input name='headline' placeholder='Founder at Acme Corp' onChange={this.handleChange} value={this.state.user.headline} />
           </Form.Field>
           {
             (this.state.user.role === 'Mentee') ?
               <Form.Field required width={12}>
-                <label>About you</label>
+                <label>Summary</label>
                 <TextArea name='summary' placeholder='Share a little about yourself and what you are looking for on HelloMentor' onChange={this.handleChange} value={this.state.user.summary} />
               </Form.Field>
             :
               <Form.Field required width={12}>
-                <label>About you</label>
+                <label>Summary</label>
                 <TextArea name='summary' placeholder='Share a little about what makes you a great mentor' onChange={this.handleChange} value={this.state.user.summary} />
               </Form.Field>
           }
@@ -152,13 +156,15 @@ class Profile extends Component {
           <Form.Group>
             <Form.Field width={6}>
               <label>City</label>
-              <Input name='city' placeholder='City' onChange={this.handleChange} value={this.state.user.city} />
+              <Input name='city' placeholder='Hollywood' onChange={this.handleChange} value={this.state.user.city} />
             </Form.Field>
             <Form.Field width={6}>
               <label>Country</label>
-              <Input name='country' placeholder='Country' onChange={this.handleChange} value={this.state.user.country} />
+              <Input name='country' placeholder='United States' onChange={this.handleChange} value={this.state.user.country} />
             </Form.Field>
           </Form.Group>
+
+          <Header as='h3'>More About You</Header>
           <Form.Field width={6}>
             <label>Date of Birth</label>
             <DatePicker
@@ -185,7 +191,7 @@ class Profile extends Component {
           </Form.Field>
           <Form.Field width={6}>
             <label>LinkedIn Username</label>
-            <Input name='linkedin_u_name' label="https://linkedin.com/u/" placeholder='janedoe' onChange={this.handleChange} value={this.state.user.linkedin_u_name} />
+            <Input name='linkedin_u_name' label="https://linkedin.com/u/" placeholder='wileycoyote' onChange={this.handleChange} value={this.state.user.linkedin_u_name} />
           </Form.Field>
           <Button primary onClick={this.updateProfile}>SUBMIT</Button>
           {

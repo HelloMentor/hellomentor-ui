@@ -117,58 +117,30 @@ class Signup extends Component {
 
   render() {
     return (
-      <Container textAlign='left' style={{ marginTop: '2em', paddingBottom: '150px' }}>
+      <Container textAlign='left' style={{ marginTop: '2rem', paddingBottom: '1rem' }}>
 
-        <Header textAlign='center' as='h1'>{this.state.user.role} Signup</Header>
+        <Header as='h1' style={{paddingBottom: '1rem'}}>Sweet! Let's get you set up.</Header>
 
         <Form>
           <Header as='h3'>Your Account</Header>
           <Form.Field required width={6}>
             <label>Email</label>
-            <Input name='email' placeholder='Email' onChange={this.handleChange} />
+            <Input name='email' placeholder='elmer@acme.com' onChange={this.handleChange} />
           </Form.Field>
           <Form.Field required width={6}>
             <label>Password</label>
-            <Input name='password' type='password' placeholder='Password' onChange={this.handleChange} />
+            <Input name='password' type='password' placeholder='Something super secret, at least 7 chars long' onChange={this.handleChange} />
           </Form.Field>
 
-          <Header as='h3'>Personal Details</Header>
+          <Header as='h3'>About You</Header>
           <Form.Group>
             <Form.Field required width={6}>
               <label>First Name</label>
-              <Input name='f_name' placeholder='First Name' onChange={this.handleChange} />
+              <Input name='f_name' placeholder='Elmer' onChange={this.handleChange} />
             </Form.Field>
             <Form.Field required width={6}>
               <label>Last Name</label>
-              <Input name='l_name' placeholder='Last Name' onChange={this.handleChange} />
-            </Form.Field>
-          </Form.Group>
-          <Form.Field required width={12}>
-            <label>Headline</label>
-            <Input name='headline' placeholder='e.g. Founder at XYZ Corp' onChange={this.handleChange} />
-          </Form.Field>
-          {
-            (this.state.user.role === 'Mentee') ?
-              <Form.Field required width={12}>
-                <label>About you</label>
-                <TextArea name='summary' placeholder='Share a little about yourself and what you are looking for on HelloMentor' onChange={this.handleChange} />
-              </Form.Field>
-            :
-              <Form.Field required width={12}>
-                <label>About you</label>
-                <TextArea name='summary' placeholder='Share a little about what makes you a great mentor' onChange={this.handleChange} />
-              </Form.Field>
-          }
-
-          <Header as='h3'>More Details</Header>
-          <Form.Group>
-            <Form.Field width={6}>
-              <label>City</label>
-              <Input name='city' placeholder='City' onChange={this.handleChange} />
-            </Form.Field>
-            <Form.Field width={6}>
-              <label>Country</label>
-              <Input name='country' placeholder='Country' onChange={this.handleChange} />
+              <Input name='l_name' placeholder='Fudd' onChange={this.handleChange} />
             </Form.Field>
             <Form.Field width={4} className='field-image-upload'>
               <label>Profile Image</label>
@@ -179,6 +151,22 @@ class Signup extends Component {
               { this.state.imagePreviewUrl ? <img src={this.state.imagePreviewUrl} alt="profile" /> : '' }
             </Form.Field>
           </Form.Group>
+          <Form.Field required width={12}>
+            <label>Headline</label>
+            <Input name='headline' placeholder='Founder at Acme Corp' onChange={this.handleChange} />
+          </Form.Field>
+          {
+            (this.state.user.role === 'Mentee') ?
+              <Form.Field required width={12}>
+                <label>Summary</label>
+                <TextArea name='summary' placeholder='Share a little about yourself and what you are looking for on HelloMentor' onChange={this.handleChange} />
+              </Form.Field>
+            :
+              <Form.Field required width={12}>
+                <label>Summary</label>
+                <TextArea name='summary' placeholder='Share a little about what makes you a great mentor' onChange={this.handleChange} />
+              </Form.Field>
+          }
           {
             (this.state.user.role === 'Mentee') ?
               <Form.Field width={12}>
@@ -191,6 +179,16 @@ class Signup extends Component {
                 <TagsInput value={this.state.user.skills} onChange={this.handleSkillChange} />
               </Form.Field>
           }
+          <Form.Group>
+            <Form.Field width={6}>
+              <label>City</label>
+              <Input name='city' placeholder='Hollywood' onChange={this.handleChange} />
+            </Form.Field>
+            <Form.Field width={6}>
+              <label>Country</label>
+              <Input name='country' placeholder='United States' onChange={this.handleChange} />
+            </Form.Field>
+          </Form.Group>
           <Button primary onClick={this.signup}>SUBMIT</Button>
         </Form>
       </Container>

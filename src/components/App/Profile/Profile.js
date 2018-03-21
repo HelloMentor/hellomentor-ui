@@ -162,7 +162,7 @@ class Profile extends Component {
           <Form.Field width={6}>
             <label>Date of Birth</label>
             <DatePicker
-              selected={moment(this.state.user.dob)}
+              selected={this.state.user.dob ? moment(this.state.user.dob) : null}
               onChange={this.handleDobChange}
               placeholderText='Click to select a date'
               showMonthDropdown

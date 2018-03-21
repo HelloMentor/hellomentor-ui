@@ -5,7 +5,7 @@ import { Button, Container, Form, Input, TextArea } from 'semantic-ui-react'
 import TagsInput from 'react-tagsinput';
 import 'react-tagsinput/react-tagsinput.css';
 import 'react-datepicker/dist/react-datepicker.css';
-import { setLoggedInUser } from '../../../store/users/actions';
+import { setLoggedInUser, signup } from '../../../store/users/actions';
 import './Signup.css';
 
 class Signup extends Component {
@@ -100,52 +100,19 @@ class Signup extends Component {
   }
 
   signup() {
-    let requiredFields = ['email', 'password', 'f_name', 'l_name', 'headline', 'summary'];
-
-    for (let field of requiredFields) {
-      if (!this.state.user[field]) {
-        let alertFieldText;
-
-        if (field === 'f_name') {
-          alertFieldText = 'your first name';
-        } else if (field === 'l_name') {
-          alertFieldText = 'your last name';
-        } else if (field === 'email') {
-          alertFieldText = 'your email address';
-        } else if (field === 'password') {
-          alertFieldText = 'a 7 character or longer password';
-        } else if (field === 'headline') {
-          alertFieldText = 'a headline';
-        } else if (field === 'summary') {
-          alertFieldText = 'a summary';
-        }
-
-        alert('Please enter ' + alertFieldText + ' to sign up.');
-        return;
-      }
-    }
-
-    var formData  = new FormData();
-    formData.append('user', JSON.stringify(this.state.user));
-    formData.append('profile_image', this.state.profile_image_file);
-
-    fetch(process.env.REACT_APP_API_URL + '/users', {
-      method: 'POST',
-      body: formData
-    })
-    .then(res => {
-      if (!res.ok) {
-        throw res.json();
-      }
-      return res.json();
-    })
-    .then(user => {
-      this.props.setLiu(user);
-      this.props.history.push('/discover');
-    })
-    .catch(error => {
-      error.then(body => { alert(body.message) });
-    });
+    this.props.signup(this.state.user, this.state.profile_image_file)
+      .then(user => {
+        this.props.history.push('/discover');
+      })
+      .catch(err => {
+        Promise.resolve(err).then(err => {
+          if (err.message) {
+            alert(err.message);
+          } else {
+            alert(err);
+          }
+        })
+      });
   }
 
   render() {
@@ -234,7 +201,10 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return {
     setLiu(user) {
-      dispatch(setLoggedInUser(user))
+      dispatch(setLoggedInUser(user));
+    },
+    signup(user, profileImageFile) {
+      return dispatch(signup(user, profileImageFile));
     }
   }
 }

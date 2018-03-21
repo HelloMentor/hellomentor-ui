@@ -83,9 +83,19 @@ class Profile extends Component {
 
   updateProfile() {
     const { updateSuccess } = this.state.updateSuccess;
-    this.props.updateProfile(this.state.user, this.state.profile_image_file, updateSuccess).then(() => {
-      this.setState({ updateSuccess: true });
-    });
+    this.props.updateProfile(this.state.user, this.state.profile_image_file, updateSuccess)
+      .then(() => {
+        this.setState({ updateSuccess: true });
+      })
+      .catch(err => {
+        Promise.resolve(err).then(err => {
+          if (err.message) {
+            alert(err.message);
+          } else {
+            alert(err);
+          }
+        })
+      });
   }
 
   render() {

@@ -30,6 +30,25 @@ export function fetchLoggedInUser(userId, token) {
   }
 }
 
+export function signup(user) {
+  return dispatch => {
+    return services.signup(user)
+      .then(res => {
+        if (!res.ok) {
+          throw res.json();
+        }
+        return res.json();
+      })
+      .then(user => {
+        localStorage.setItem('liu', JSON.stringify(user));
+        dispatch({ type: types.SIGNUP, user });
+      })
+      .catch(err => {
+        throw err;
+      });
+  }
+}
+
 export function login(user) {
   return dispatch => {
     // send back promise so we can take user to next page after login
@@ -57,6 +76,9 @@ export function updateUser(user, profileImage) {
       .then(user => {
         localStorage.setItem('liu', JSON.stringify(user));
         dispatch({ type: types.UPDATE_LIU, user });
+      })
+      .catch(err => {
+        throw err;
       });
   }
 }

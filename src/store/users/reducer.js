@@ -24,6 +24,11 @@ export default function(state = initialState, action) {
         ...state,
         liu: action.user.user
       }
+    case types.SIGNUP:
+      return {
+        ...state,
+        liu: action.user.user
+      }
     case types.LOGIN:
       return {
         ...state,

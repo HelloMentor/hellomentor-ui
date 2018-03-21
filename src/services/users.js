@@ -23,7 +23,30 @@ export function login(user) {
   });
 }
 
+export function signup(user, profileImage) {
+  try {
+    validateUser(user, 'signup');
+  } catch(err) {
+    return Promise.reject(err.message);
+  }
+
+  var formData  = new FormData();
+  formData.append('user', JSON.stringify(user));
+  formData.append('profile_image', profileImage);
+
+  return fetch(process.env.REACT_APP_API_URL + '/users', {
+    method: 'POST',
+    body: formData
+  });
+}
+
 export function updateUser(user, profileImage) {
+  try {
+    validateUser(user, 'update');
+  } catch(err) {
+    return Promise.reject(err.message);
+  }
+
   var formData  = new FormData();
   formData.append('user', JSON.stringify(user));
   formData.append('profile_image', profileImage);
@@ -35,4 +58,31 @@ export function updateUser(user, profileImage) {
     },
     body: formData
   });
+}
+
+function validateUser(user, type) {
+  const requiredFields = ['email', 'password', 'f_name', 'l_name', 'headline', 'summary'];
+
+  for (let field of requiredFields) {
+    if (!user[field]) {
+      let alertFieldText;
+
+      if (field === 'f_name') {
+        alertFieldText = 'your first name';
+      } else if (field === 'l_name') {
+        alertFieldText = 'your last name';
+      } else if (field === 'email') {
+        alertFieldText = 'your email address';
+      } else if (field === 'password') {
+        if (type !== 'signup') continue;
+        alertFieldText = 'a 7 character or longer password';
+      } else if (field === 'headline') {
+        alertFieldText = 'a headline';
+      } else if (field === 'summary') {
+        alertFieldText = 'a summary';
+      }
+
+      throw new Error('Please enter ' + alertFieldText + '.');
+    }
+  }
 }

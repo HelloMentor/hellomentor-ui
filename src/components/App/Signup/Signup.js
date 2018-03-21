@@ -100,6 +100,31 @@ class Signup extends Component {
   }
 
   signup() {
+    let requiredFields = ['email', 'password', 'f_name', 'l_name', 'headline', 'summary'];
+
+    for (let field of requiredFields) {
+      if (!this.state.user[field]) {
+        let alertFieldText;
+
+        if (field === 'f_name') {
+          alertFieldText = 'your first name';
+        } else if (field === 'l_name') {
+          alertFieldText = 'your last name';
+        } else if (field === 'email') {
+          alertFieldText = 'your email address';
+        } else if (field === 'password') {
+          alertFieldText = 'a 7 character or longer password';
+        } else if (field === 'headline') {
+          alertFieldText = 'a headline';
+        } else if (field === 'summary') {
+          alertFieldText = 'a summary';
+        }
+
+        alert('Please enter ' + alertFieldText + ' to sign up.');
+        return;
+      }
+    }
+
     var formData  = new FormData();
     formData.append('user', JSON.stringify(this.state.user));
     formData.append('profile_image', this.state.profile_image_file);
@@ -108,10 +133,18 @@ class Signup extends Component {
       method: 'POST',
       body: formData
     })
-    .then(res => res.json())
+    .then(res => {
+      if (!res.ok) {
+        throw res.json();
+      }
+      return res.json();
+    })
     .then(user => {
       this.props.setLiu(user);
       this.props.history.push('/discover');
+    })
+    .catch(error => {
+      error.then(body => { alert(body.message) });
     });
   }
 

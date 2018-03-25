@@ -30,7 +30,7 @@ class Chat extends Component {
 
         this.props.setCurrentChannel(this.currentChannelId);
 
-        this.socket = io(process.env.API_URL);
+        this.socket = io(process.env.REACT_APP_WS_ROOT);
         this.socket.on('server:message', message => {
           // Do not accept if sent from me originally or if not part of this channel
           if ((message.user_id === this.props.liu.id) || (message.channel_id !== this.currentChannelId)) {

@@ -21,7 +21,15 @@ class MessageList extends Component {
     autoBind(this);
   }
 
+  componentDidMount() {
+    this.scrollToBottom();
+  }
+
   componentDidUpdate() {
+    this.scrollToBottom();
+  }
+
+  scrollToBottom() {
     const objDiv = document.getElementById('MessageList');
     objDiv.scrollTop = objDiv.scrollHeight;
   }

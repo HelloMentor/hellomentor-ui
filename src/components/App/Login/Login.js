@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import autoBind from 'react-autobind';
-import { Button, Container, Form, Header, Input } from 'semantic-ui-react'
+import { Button, Form, Header, Input } from 'semantic-ui-react'
 import { login } from '../../../store/users/actions';
 import './Login.css';
 

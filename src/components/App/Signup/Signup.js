@@ -2,8 +2,6 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import autoBind from 'react-autobind';
 import { Button, Container, Form, Header, Input, TextArea } from 'semantic-ui-react'
-import TagsInput from 'react-tagsinput';
-import 'react-tagsinput/react-tagsinput.css';
 import 'react-datepicker/dist/react-datepicker.css';
 import { setLoggedInUser, signup } from '../../../store/users/actions';
 import './Signup.css';

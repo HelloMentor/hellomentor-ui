@@ -22,10 +22,18 @@ export function setLoggedInUser(user) {
 export function fetchLoggedInUser(userId, token) {
   return dispatch => {
     return services.getFullyAuthedUser(userId, token)
-      .then(res => res.json())
+      .then(res => {
+        if (!res.ok) {
+          throw res.json();
+        }
+        return res.json();
+      })
       .then(user => {
         dispatch({ type: types.SET_LIU, user });
         return user;
+      })
+      .catch(err => {
+        throw err;
       });
   }
 }

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Provider } from 'react-redux';
-import { Route, Switch } from 'react-router';
+import { Redirect, Route, Switch } from 'react-router';
 import { BrowserRouter } from 'react-router-dom';
 import './App.css';
 import Header from './Header/Header';
@@ -20,7 +20,10 @@ class App extends Component {
     super(props);
 
     this.loading = true;
+    this.error = false;
+  }
 
+  componentDidMount() {
     // restore last session
     let user = localStorage.getItem('liu');
     if (user) {
@@ -33,6 +36,11 @@ class App extends Component {
         .then(user => {
           this.loading = false;
           this.forceUpdate();
+        })
+        .catch(err => {
+          this.loading = false;
+          this.error = true;
+          this.forceUpdate();
         });
     } else {
       this.loading = false;
@@ -41,12 +49,15 @@ class App extends Component {
   }
 
   render() {
-    if (this.loading) return null;
+    if (this.loading) {
+      return null;
+    }
 
     return (
       <Provider store={store}>
         <BrowserRouter>
           <Container className='App' fluid>
+            { this.error ? <Redirect from='/' to='login' /> : '' }
             <Header />
             <Switch>
               <Route exact path='/' component={Landing} />
@@ -67,4 +78,4 @@ class App extends Component {
   }
 }
 
-export default App;
+export default App  ;

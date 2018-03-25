@@ -12,6 +12,10 @@ class Chat extends Component {
   constructor(props) {
     super(props);
     autoBind(this);
+    
+    if (!this.props.liu.f_name) {
+      this.props.history.push('/login');
+    }
 
     // Current channel is the ID in the navbar
     this.currentChannelId = this.props.location.pathname.split('/')[2];

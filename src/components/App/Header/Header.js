@@ -18,16 +18,28 @@ class Header extends Component {
     this.props.history.push('/');
   }
 
+  onHomeClick(event) {
+    event.preventDefault();
+
+    // Redirect user to login page if not logged in
+    if (!this.props.liu.f_name) {
+      this.props.history.push('/');
+    } else {
+      // Redirect user to Discover if logged in
+      this.props.history.push('/discover');
+    }
+  }
+
   render() {
     return (
       <Menu size='small'>
-        <Menu.Item href='/'>
+        <Menu.Item onClick={ this.onHomeClick }>
           <Image
             size='mini'
             src='/images/logos/mountains.png'
           />
         </Menu.Item>
-        <Menu.Item header href='/'>
+        <Menu.Item header onClick={ this.onHomeClick }>
           HelloMentor
         </Menu.Item>
         {

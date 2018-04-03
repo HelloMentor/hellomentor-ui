@@ -40,7 +40,7 @@ class Header extends Component {
           />
         </Menu.Item>
         <Menu.Item header onClick={ this.onHomeClick }>
-          HelloMentor
+          PolyLink
         </Menu.Item>
         {
           (this.props.liu && this.props.liu.f_name)

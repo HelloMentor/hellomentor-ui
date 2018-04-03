@@ -53,7 +53,7 @@ class Login extends Component {
   render() {
     return (
       <div className='Login'>
-        <Header textAlign='center' as='h2' style={{marginBottom: '2rem'}}>Login to HelloMentor</Header>
+        <Header textAlign='center' as='h2' style={{marginBottom: '2rem'}}>Login to PolyLink</Header>
         <Form onSubmit={this.submitLogin}>
           <Form.Field>
             <label>Email</label>

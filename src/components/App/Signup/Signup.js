@@ -157,7 +157,7 @@ class Signup extends Component {
             (this.state.user.role === 'Mentee') ?
               <Form.Field required width={12}>
                 <label>Summary</label>
-                <TextArea name='summary' placeholder='Share a little about yourself and what you are looking for on HelloMentor' onChange={this.handleChange} />
+                <TextArea name='summary' placeholder='Share a little about yourself and what you are looking for on PolyLink' onChange={this.handleChange} />
               </Form.Field>
             :
               <Form.Field required width={12}>

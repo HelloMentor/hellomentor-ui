@@ -22,7 +22,7 @@ class Thanks extends Component {
     return (
       <Container textAlign='left' style={{ marginTop: '2em', paddingBottom: '150px' }}>
           <Header as='h1'>Thanks for Signing Up</Header>
-          <div>As we are still in beta, we will connect you with a { this.state.type === 'mentee' ? 'mentor' : 'mentee' } by <strong>email</strong> shortly. In the near future, we will provide a means for you to chat with your mentor in HelloMentor. We have a ton planned, so stay tuned.</div>
+          <div>As we are still in beta, we will connect you with a { this.state.type === 'mentee' ? 'mentor' : 'mentee' } by <strong>email</strong> shortly. In the near future, we will provide a means for you to chat with your mentor in PolyLink. We have a ton planned, so stay tuned.</div>
           <Header as='h3'>Next Steps</Header>
           <List ordered>
             <List.Item>
@@ -35,7 +35,7 @@ class Thanks extends Component {
               Connect with us on social media for product updates.
             </List.Item>
             <List.Item>
-              If you have any suggestions, please send me an email at <a href='mailto:ben@hellomentor.io'>ben@hellomentor.io</a>. I&#39;d absolutely love to hear from you.
+              If you have any suggestions, please send me an email at <a href='mailto:ben@polylink.co'>ben@polylink.co</a>. I&#39;d absolutely love to hear from you.
             </List.Item>
           </List>
       </Container>

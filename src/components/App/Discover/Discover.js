@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import autoBind from 'react-autobind';
 import { connect } from 'react-redux';
-import { Button, Card, Checkbox, Container, Form, Grid, Header, Image, Segment } from 'semantic-ui-react'
+import { Button, Card, Checkbox, Container, Form, Grid, Header, Image, List, Modal, Segment } from 'semantic-ui-react'
 import { fetchAllUsers, addChannelToLiu } from '../../../store/users/actions';
 import { createChannel } from '../../../store/chat/actions';
 import { pair } from '../../../services/chat';
@@ -14,7 +14,8 @@ class Discover extends Component {
     this.state = {
       showMentors: true,
       showMentees: true,
-      chatClient: null
+      chatClient: null,
+      moreInfoModalUser: {}
     };
 
     autoBind(this);
@@ -66,6 +67,14 @@ class Discover extends Component {
     }
   }
 
+  openMoreInfoModal(user) {
+    this.setState({ isMoreInfoModalOpen: true, moreInfoModalUser: user });
+  }
+
+  closeMoreInfoModal() {
+    this.setState({ isMoreInfoModalOpen: false });
+  }
+
   render() {
     return (
       <Container textAlign="left" style={{ marginTop: '2em', paddingBottom: '150px' }}>
@@ -108,7 +117,10 @@ class Discover extends Component {
                             <Card.Description>{user.summary}</Card.Description>
                           </Card.Content>
                           <Card.Content extra>
-                            <Button basic fluid color='blue' as='a' onClick={() => this.sendMessage(user)}>Message</Button>
+                            <div className='ui two buttons'>
+                              <Button basic icon='send' content='Message' color='blue' as='a' onClick={() => this.sendMessage(user)}></Button>
+                              <Button basic icon='info' content='More Info' color='grey' as='a' onClick={() => this.openMoreInfoModal(user)}></Button>
+                            </div>
                           </Card.Content>
                       </Card>
                     : ''
@@ -118,6 +130,50 @@ class Discover extends Component {
             </Card.Group>
           </Grid.Column>
         </Grid>
+        <Modal size='small' open={this.state.isMoreInfoModalOpen} onClose={this.closeMoreInfoModal} closeIcon>
+          <Modal.Content>
+            <Image src={this.state.moreInfoModalUser.profile_image} size='medium' circular />
+            <div>{this.state.moreInfoModalUser.f_name + ' ' + this.state.moreInfoModalUser.l_name}</div>
+            <div>{this.state.moreInfoModalUser.headline}</div>
+            {
+              (this.state.moreInfoModalUser.city && this.state.moreInfoModalUser.country) ?
+                <div>
+                  {this.state.moreInfoModalUser.city + ', ' + this.state.moreInfoModalUser.country}
+                </div>
+              : ''
+            }
+            <div>{this.state.moreInfoModalUser.summary}</div>
+            {
+              (this.state.moreInfoModalUser.skills && this.state.moreInfoModalUser.skills.length) ?
+                <div>
+                  <div>Skills</div>
+                  <List items={this.state.moreInfoModalUser.skills} />
+                </div>
+              : ''
+            }
+            {
+              (this.state.moreInfoModalUser.wanted_skills && this.state.moreInfoModalUser.wanted_skills.length) ?
+                <div>
+                  <div>Wanted Skills</div>
+                  <List items={this.state.moreInfoModalUser.wanted_skills} />
+                </div>
+              : ''
+            }
+            {
+              (this.state.moreInfoModalUser.linkedin_url) ?
+                <div>
+                  <div>LinkedIn Profile</div>
+                  <a href={'https://linkedin.com/u/' + this.state.moreInfoModalUser.linkedin_url}>
+                    {'https://linkedin.com/u/' + this.state.moreInfoModalUser.linkedin_url}
+                  </a>
+                </div>
+              : ''
+            }
+          </Modal.Content>
+          <Modal.Actions>
+            <Button icon='send' content='Message' labelPosition='left' color='blue' as='a' onClick={() => this.sendMessage(this.state.moreInfoModalUser)}></Button>
+          </Modal.Actions>
+        </Modal>
       </Container>
     );
   }
